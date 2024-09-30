@@ -1,0 +1,15 @@
+version: '3'
+services:
+  frontend:
+    image: mustapha69/frontend_final:${BUILD_ID}  
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    image: mustapha69/backend_final:${BUILD_ID}  
+    ports:
+      - "8083:8083"
+    environment:
+      - NODE_ENV=production
