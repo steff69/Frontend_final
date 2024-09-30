@@ -1,0 +1,123 @@
+trigger:
+  - none
+
+pool:
+  name: bara
+  demands:
+    - agent.name -equals BestVM
+
+steps:
+- script: |
+    export BUILD_ID=$(Build.BuildId)
+    echo "BUILD_ID is set to: $BUILD_ID"
+  displayName: 'Export Build ID'
+  
+- script: |
+    ls -la $(Build.SourcesDirectory)
+    git clone https://github.com/steff69/Backend_final.git backend
+  displayName: 'Clone Backend Repository'
+
+# Run Flutter updates
+- script: |
+    flutter --version
+    flutter pub outdated
+    flutter pub upgrade --major-versions
+    flutter pub get 
+  displayName: 'Run Flutter updates'
+
+# Run Tests First
+- script: |
+    flutter --version
+    flutter pub get
+    flutter pub run build_runner build
+#    flutter test test/widget_test.dart
+  displayName: 'Integration Test'
+
+#- script: |
+#    flutter test test/register_controller_test.dart
+#    flutter test test/register_page_test.dart
+#  displayName: 'JUnit Test'
+
+#- script: |
+#    flutter test --machine > test-results.json
+#    cat test-results.json | tojunit > test-results.xml || true
+#  displayName: 'Create JUnit Test Results'
+
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFiles: './test-results.xml'
+#    testResultsFormat: 'JUnit'
+
+# Build APK after tests pass
+- script: |
+    flutter clean
+    flutter pub get
+    flutter build apk --release --verbose
+  displayName: 'Build APK Front'
+
+- script: |
+    pwd
+    ls -la
+  displayName: 'Show Current Directory and Contents'
+
+# Run Backend Tests
+- script: |
+    cd backend
+    npm install
+  displayName: 'Run Backend Tests'
+  
+
+
+
+
+# Verify APK exists after the build
+- script: |
+    ls -la build/app/outputs/flutter-apk/
+  displayName: 'Verify APK Exists'
+
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker ps -q --filter "publish=8083" | grep -q . && docker stop $(docker ps -q --filter "publish=8083") && docker rm $(docker ps -aq --filter "publish=8083") || echo "No container running on port 8083"
+      docker ps -q --filter "publish=8080" | grep -q . && docker stop $(docker ps -q --filter "publish=8080") && docker rm $(docker ps -aq --filter "publish=8080") || echo "No container running on port 8080"
+  displayName: 'Stop and Remove Existing Container on Port 8080 & 8083'
+
+# Build and Push Docker Images for both frontend and backend
+#- task: Docker@2
+#  inputs:
+#    containerRegistry: 'docker'
+#    repository: 'mustapha69/front_tunisairmob2'
+#    command: 'buildAndPush'
+#    Dockerfile: 'Docker/Dockerfile'  # Frontend Dockerfile
+#    buildContext: '/home/azureuser/myagent/_work/5/s'
+#    tags: '$(Build.BuildId)'
+#  displayName: 'Build and Push Frontend Docker Image'
+
+# Build and Push Docker Images for the backend
+#- task: Docker@2
+#    containerRegistry: 'docker'
+#    repository: 'mustapha69/back_tunisairmob2'
+#    command: 'buildAndPush'
+#    Dockerfile: 'backend/Docker/Dockerfile'
+#    buildContext: '/home/azureuser/myagent/_work/5/s'  # This should be the root of your project
+#    tags: '$(Build.BuildId)'
+#  displayName: 'Build and Push Backend Docker Image'
+
+
+# Use Docker Compose to run both frontend and backend containers
+#- task: Bash@3
+#  inputs:
+#   targetType: 'inline'
+#    script: |
+#      export BUILD_ID=$(Build.BuildId)
+#      docker-compose -f docker-compose.yml up -d
+#  displayName: 'Run Docker Compose'
+
+# Verify Containers are Running
+#- script: |
+#    docker ps -a
+#  displayName: 'Verify Containers are Running'
+  
+
