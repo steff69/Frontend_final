@@ -13,7 +13,7 @@ import 'package:travel_app/common/back_ground_container.dart';
 import 'package:travel_app/common/shimmers/cutomButtomn.dart';
 import 'package:travel_app/constants/constants.dart';
 import 'package:travel_app/controller/LoginController.dart';
-import 'package:travel_app/pages/Mainscreen.dart';
+import 'package:travel_app/pages/MainScreen.dart';
 import 'package:travel_app/pages/ProfilePage.dart';
 
 class LoginPage extends StatefulWidget {
