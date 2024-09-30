@@ -101,7 +101,7 @@ steps:
     containerRegistry: 'docker'
     repository: 'mustapha69/backend_final'
     command: 'buildAndPush'
-    Dockerfile: 'backend/Docker/backend.Dockerfile'
+    Dockerfile: 'backend/Docker/Dockerfile'
     buildContext: '/home/azureuser/myagent/_work/6/s'  # This should be the root of your project
     tags: '$(Build.BuildId)'
   displayName: 'Build and Push Backend Docker Image'
