@@ -85,39 +85,40 @@ steps:
   displayName: 'Stop and Remove Existing Container on Port 8080 & 8083'
 
 # Build and Push Docker Images for both frontend and backend
-#- task: Docker@2
-#  inputs:
-#    containerRegistry: 'docker'
-#    repository: 'mustapha69/front_tunisairmob2'
-#    command: 'buildAndPush'
-#    Dockerfile: 'Docker/Dockerfile'  # Frontend Dockerfile
-#    buildContext: '/home/azureuser/myagent/_work/5/s'
-#    tags: '$(Build.BuildId)'
-#  displayName: 'Build and Push Frontend Docker Image'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/frontend_final'
+    command: 'buildAndPush'
+    Dockerfile: 'Docker/Dockerfile'  # Frontend Dockerfile
+    buildContext: '/home/azureuser/myagent/_work/6/s'
+    tags: '$(Build.BuildId)'
+  displayName: 'Build and Push Frontend Docker Image'
 
 # Build and Push Docker Images for the backend
-#- task: Docker@2
-#    containerRegistry: 'docker'
-#    repository: 'mustapha69/back_tunisairmob2'
-#    command: 'buildAndPush'
-#    Dockerfile: 'backend/Docker/Dockerfile'
-#    buildContext: '/home/azureuser/myagent/_work/5/s'  # This should be the root of your project
-#    tags: '$(Build.BuildId)'
-#  displayName: 'Build and Push Backend Docker Image'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/backend_final'
+    command: 'buildAndPush'
+    Dockerfile: 'backend/Docker/backend.Dockerfile'
+    buildContext: '/home/azureuser/myagent/_work/6/s'  # This should be the root of your project
+    tags: '$(Build.BuildId)'
+  displayName: 'Build and Push Backend Docker Image'
 
 
 # Use Docker Compose to run both frontend and backend containers
-#- task: Bash@3
-#  inputs:
-#   targetType: 'inline'
-#    script: |
-#      export BUILD_ID=$(Build.BuildId)
-#      docker-compose -f docker-compose.yml up -d
-#  displayName: 'Run Docker Compose'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      export BUILD_ID=$(Build.BuildId)
+      docker-compose -f docker-compose.yml up -d
+  displayName: 'Run Docker Compose'
 
 # Verify Containers are Running
-#- script: |
-#    docker ps -a
-#  displayName: 'Verify Containers are Running'
+- script: |
+    docker ps -a
+  displayName: 'Verify Containers are Running'
   
 
