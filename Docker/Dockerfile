@@ -2,7 +2,7 @@ FROM alpine:3.14
 
 WORKDIR /app
 
-COPY ./build/app/outputs/flutter-apk/app-release.apk /app/Tiri.apk
+COPY ./build/app/outputs/flutter-apk/app-release.apk /app/cycy.apk
 
 EXPOSE 8080 
 
