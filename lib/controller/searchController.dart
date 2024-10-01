@@ -18,7 +18,7 @@ class SerchController extends GetxController {
     str.value = 'a';
     dataSearch.clear();
 
-    final url = Uri.parse('http://10.0.2.2:5000/api/Vole/search/$searchdata');
+    final url = Uri.parse('http://51.120.240.58:8083/api/Vole/search/$searchdata');
 
     try {
       final response = await http.get(url);

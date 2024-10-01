@@ -22,7 +22,7 @@ class RegisterController extends GetxController {
   void registerFunction(String data) async {
     loading.value = true;
 
-    final url = Uri.parse('http://10.0.2.2:5000/api/user/create');
+    final url = Uri.parse('http://51.120.240.58:8083/api/user/create');
     Map<String, String> headers = {'content-Type': 'application/json'};
 
     try {

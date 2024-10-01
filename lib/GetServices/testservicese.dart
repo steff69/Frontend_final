@@ -13,7 +13,7 @@ class TestServices extends GetxService {
 
   Future<void> fetchallData() async {
     c.isallLaoding.value = true;
-    final url = Uri.parse('http://10.0.2.2:5000/api/Vole');
+    final url = Uri.parse('http://51.120.240.58:8083/api/Vole');
     try {
       final response = await http.get(url);
 
