@@ -32,7 +32,7 @@ class RegisterController extends GetxController {
       if (response.statusCode == 200) {
         String text = jsonDecode(response.body)["message"];
 
-        Get.snackbar('  crated ssucs', "$text",
+        Get.snackbar('  Your account has been successfully created', "$text",
             backgroundColor: kPrimary,
             colorText: kLightwhite,
             icon: Icon(Ionicons.fast_food_outline));

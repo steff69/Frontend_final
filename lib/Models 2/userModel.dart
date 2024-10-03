@@ -43,6 +43,8 @@ class User1 {
   DateTime updatedAt;
   int v;
   String token;
+  String milequal
+  String mileprim
 
   User1({
     required this.id,
@@ -59,6 +61,9 @@ class User1 {
     required this.updatedAt,
     required this.v,
     required this.token,
+    required this.milequal,
+    required this.mileprim,
+
   });
 
   factory User1.fromJson(Map<String, dynamic> json) => User1(
@@ -76,6 +81,9 @@ class User1 {
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
         token: json["token"],
+        milequal: json["milequal"],
+        mileprim: json["mileprim"],
+
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,5 +101,7 @@ class User1 {
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
         "token": token,
+        "mileprim": mileprim,
+        "milequal": milequal,
       };
 }
