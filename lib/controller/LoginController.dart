@@ -13,27 +13,17 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_app/Models%202/userModel.dart';
 import 'package:travel_app/constants/constants.dart';
-import 'package:travel_app/login/login.dart';
 import 'package:travel_app/pages/MainScreen.dart';
-import 'package:travel_app/pages/ProfilePage.dart';
 
 class LoginController extends GetxController {
   //RxList<DatumC> dataList = RxList<DatumC>();
   final box = GetStorage();
   RxBool loading = false.obs;
-  RxBool pf = false.obs;
-  RxInt miles = 10000.obs;
-  RxDouble points = 0.0.obs;
-
-  void convertFunction() {
-    points.value = miles.value * 0.6;
-    miles.value = 0;
-  }
 
   void loginFunction(String data) async {
     loading.value = true;
 
-    final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
+    final url = Uri.parse('http://10.0.2.2:5000/api/user/login');
     Map<String, String> headers = {'content-Type': 'application/json'};
 
     try {
@@ -55,10 +45,11 @@ class LoginController extends GetxController {
             backgroundColor: kPrimary,
             icon: Icon(Ionicons.fast_food_outline));
 
-        loading.value = false;
-        pf.value = true;
+        Timer.periodic(Duration(seconds: 1), (timer) {
+          loading.value = false;
+        });
 
-        Get.off(() => ProfilePage(),
+        Get.offAll(() => MainScreen(),
             transition: Transition.fade, duration: Duration(milliseconds: 900));
       }
       if (response.statusCode == 400) {
@@ -83,10 +74,5 @@ class LoginController extends GetxController {
 
   void logout() {
     box.erase();
-    pf.value = false;
-
-    print(pf.value);
-    Get.off(() => LoginPage(),
-        transition: Transition.fade, duration: Duration(milliseconds: 900));
   }
 }
