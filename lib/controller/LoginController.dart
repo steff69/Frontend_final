@@ -28,55 +28,64 @@ class LoginController extends GetxController {
     miles.value = 0;
   }
 
-  void loginFunction(String data) async {
-    loading.value = true;
+ void loginFunction(String data) async {
+  loading.value = true;
 
-    final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
-    Map<String, String> headers = {'content-Type': 'application/json'};
+  final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
+  Map<String, String> headers = {'content-Type': 'application/json'};
 
-    try {
-      final response = await http.post(url, headers: headers, body: data);
+  try {
+    final response = await http.post(url, headers: headers, body: data);
 
-      //print(jsonDecode(response.body)['data']);
-      if (response.statusCode == 200) {
-        UserModel userdata = UserModelFromJson(response.body);
+    // Check all response codes
+    if (response.statusCode == 200) {
+      UserModel userdata = UserModelFromJson(response.body);
 
-        var user = jsonDecode(response.body)['user1'];
-
-        box.write("token", userdata.user1.token);
-        box.write("userid", userdata.user1.id);
+      // Ensure user1 exists in the response
+      if (userdata.user1 != null) {
+        var user = userdata.user1;
+        
+        box.write("token", user.token);
+        box.write("userid", user.id);
         box.write("user", user);
 
         Get.snackbar(
-            'you are succefully logged in', "Enjoy your awesome experience",
+            'You are successfully logged in', "Enjoy your awesome experience",
             colorText: kLightwhite,
             backgroundColor: kPrimary,
             icon: Icon(Ionicons.fast_food_outline));
 
-        Timer.periodic(Duration(seconds: 1), (timer) {
-          loading.value = false;
-          pf.value = true;
-        });
-      }
-      if (response.statusCode == 400) {
-        String text = jsonDecode(response.body)["message"];
+        // Stop the loading indicator
+        loading.value = false;
+        pf.value = true;
 
-        Get.snackbar('  you have something wrong', "$text",
-            messageText: Text(
-              "$text",
-              style: TextStyle(fontSize: 18, color: kLightwhite),
-            ),
-            colorText: kDark,
-            backgroundColor: kRed,
-            icon: Icon(Ionicons.fast_food_outline));
-        Timer.periodic(Duration(seconds: 1), (timer) {
-          loading.value = false;
-        });
+        // Navigate to the next page
+        Get.off(() => MainScreen(),
+            transition: Transition.fade, duration: Duration(milliseconds: 900));
+      } else {
+        // Handle missing user data
+        Get.snackbar('Error', 'User data is missing from response',
+            backgroundColor: kRed, colorText: kLightwhite);
+        loading.value = false;
       }
-    } catch (e) {
-      print(e);
-    } finally {}
+    } else {
+      String errorText = jsonDecode(response.body)["message"] ?? "Unknown error";
+      Get.snackbar('Login failed', errorText,
+          backgroundColor: kRed, colorText: kLightwhite);
+
+      loading.value = false;
+    }
+  } catch (e) {
+    // Handle any errors
+    Get.snackbar('Error', 'An unexpected error occurred: $e',
+        backgroundColor: kRed, colorText: kLightwhite);
+    loading.value = false;
+  } finally {
+    // Ensure loading is stopped in all cases
+    loading.value = false;
   }
+}
+
 
   void logout() {
     box.erase();
