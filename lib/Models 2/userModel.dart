@@ -43,8 +43,8 @@ class User1 {
   DateTime updatedAt;
   int v;
   String token;
-  String milequal
-  String mileprim
+  String milequal;
+  String mileprim;
 
   User1({
     required this.id,
