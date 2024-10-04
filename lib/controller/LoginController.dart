@@ -13,9 +13,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_app/Models%202/userModel.dart';
 import 'package:travel_app/constants/constants.dart';
-import 'package:travel_app/login/login.dart';
 import 'package:travel_app/pages/MainScreen.dart';
-import 'package:travel_app/pages/ProfilePage.dart';
 
 class LoginController extends GetxController {
   //RxList<DatumC> dataList = RxList<DatumC>();
@@ -30,63 +28,57 @@ class LoginController extends GetxController {
     miles.value = 0;
   }
 
-void loginFunction(String data) async {
-  loading.value = true;
+  void loginFunction(String data) async {
+    loading.value = true;
 
-  final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
-  Map<String, String> headers = {'content-Type': 'application/json'};
+    final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
+    Map<String, String> headers = {'content-Type': 'application/json'};
 
-  try {
-    final response = await http.post(url, headers: headers, body: data);
-    
-    print('Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
+    try {
+      final response = await http.post(url, headers: headers, body: data);
 
-    if (response.statusCode == 200) {
-      // Handle success
-      UserModel userdata = UserModelFromJson(response.body);
-      var user = jsonDecode(response.body)['user1'];
+      //print(jsonDecode(response.body)['data']);
+      if (response.statusCode == 200) {
+        UserModel userdata = UserModelFromJson(response.body);
 
-      box.write("token", userdata.user1.token);
-      box.write("userid", userdata.user1.id);
-      box.write("user", user);
+        var user = jsonDecode(response.body)['user1'];
 
-      Get.snackbar('you are successfully logged in', "Enjoy your awesome experience",
-          colorText: kLightwhite, backgroundColor: kPrimary,
-          icon: Icon(Ionicons.fast_food_outline));
+        box.write("token", userdata.user1.token);
+        box.write("userid", userdata.user1.id);
+        box.write("user", user);
 
-      loading.value = false;
-      pf.value = true;
+        Get.snackbar(
+            'you are succefully logged in', "Enjoy your awesome experience",
+            colorText: kLightwhite,
+            backgroundColor: kPrimary,
+            icon: Icon(Ionicons.fast_food_outline));
 
-      Get.off(() => ProfilePage(),
-          transition: Transition.fade, duration: Duration(milliseconds: 900));
-    } else if (response.statusCode == 400) {
-      // Handle specific error
-      String text = jsonDecode(response.body)["message"];
-      Get.snackbar('Error', "$text",
-          messageText: Text(
-            "$text",
-            style: TextStyle(fontSize: 18, color: kLightwhite),
-          ),
-          colorText: kDark,
-          backgroundColor: kRed,
-          icon: Icon(Ionicons.fast_food_outline));
-      loading.value = false;
-    }
-  } catch (e) {
-    print("Error: $e");
-  } finally {
-    loading.value = false;
+        Timer.periodic(Duration(seconds: 1), (timer) {
+          loading.value = false;
+          pf.value = true;
+        });
+      }
+      if (response.statusCode == 400) {
+        String text = jsonDecode(response.body)["message"];
+
+        Get.snackbar('  you have something wrong', "$text",
+            messageText: Text(
+              "$text",
+              style: TextStyle(fontSize: 18, color: kLightwhite),
+            ),
+            colorText: kDark,
+            backgroundColor: kRed,
+            icon: Icon(Ionicons.fast_food_outline));
+        Timer.periodic(Duration(seconds: 1), (timer) {
+          loading.value = false;
+        });
+      }
+    } catch (e) {
+      print(e);
+    } finally {}
   }
-}
-   
 
   void logout() {
     box.erase();
-    pf.value = false;
-
-    print(pf.value);
-    Get.off(() => LoginPage(),
-        transition: Transition.fade, duration: Duration(milliseconds: 900));
   }
 }
