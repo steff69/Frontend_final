@@ -5,7 +5,7 @@
         android:usesCleartextTraffic="true"
         android:label="Tunisair"
         android:name="${applicationName}"
-        android:icon="@mipmap/true">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
