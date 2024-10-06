@@ -32,13 +32,8 @@ class User1 {
   String id;
   String username;
   String email;
-  String otp;
   String password;
-  bool verification;
   String phone;
-  bool phoneVerification;
-  String userType;
-  String profile;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
@@ -50,13 +45,8 @@ class User1 {
     required this.id,
     required this.username,
     required this.email,
-    required this.otp,
     required this.password,
-    required this.verification,
     required this.phone,
-    required this.phoneVerification,
-    required this.userType,
-    required this.profile,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -70,13 +60,8 @@ class User1 {
         id: json["_id"],
         username: json["username"],
         email: json["email"],
-        otp: json["otp"],
         password: json["password"],
-        verification: json["verification"],
         phone: json["phone"],
-        phoneVerification: json["phoneVerification"],
-        userType: json["userType"],
-        profile: json["profile"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
@@ -90,13 +75,8 @@ class User1 {
         "_id": id,
         "username": username,
         "email": email,
-        "otp": otp,
         "password": password,
-        "verification": verification,
         "phone": phone,
-        "phoneVerification": phoneVerification,
-        "userType": userType,
-        "profile": profile,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,

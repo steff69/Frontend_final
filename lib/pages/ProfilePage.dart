@@ -32,142 +32,142 @@ class ProfilePage extends StatelessWidget {
         body: SafeArea(
           child: CustomContainer(
               containerConrent: Column(
-            children: [
-              Container(
-                height: hieght * 0.07,
-                width: widthh,
-                decoration: BoxDecoration(
-                    color: kLightwhite,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(12.w, 0, 16, 0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(children: [
-                        CircleAvatar(
-                          radius: 23.r,
-                          backgroundColor: kSecondary,
-                          backgroundImage: NetworkImage(user == null
-                              ? 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg'
-                              : user["profile"] == ''
-                                  ? 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg'
-                                  : user["profile"]),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user != null ? '${user['username']}' : "Username",
-                              style: TextStyle(
-                                  color: kDark,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14),
+                children: [
+                  Container(
+                    height: hieght * 0.07,
+                    width: widthh,
+                    decoration: BoxDecoration(
+                        color: kLightwhite,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(12.w, 0, 16, 0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(children: [
+                            CircleAvatar(
+                              radius: 23.r,
+                              backgroundColor: kSecondary,
+                              backgroundImage: NetworkImage(
+                                user == null || user["profile"] == null || user["profile"].isEmpty
+                                    ? 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg'
+                                    : user["profile"],
+                              ),
                             ),
-                            Text(
-                              user != null ? '${user['email']}' : "email",
-                              style: TextStyle(
-                                  color: kDark,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14),
+                            SizedBox(
+                              width: 20,
                             ),
-                          ],
-                        ),
-                        Spacer(),
-                        Obx(() => Column(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user != null && user["username"] != null ? '${user['username']}' : "Username",
+                                  style: TextStyle(
+                                      color: kDark,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14),
+                                ),
+                                Text(
+                                  user != null && user["email"] != null ? '${user['email']}' : "email",
+                                  style: TextStyle(
+                                      color: kDark,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Obx(() => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('points : ${c.points.value}'),
                                 Text('miles : ${c.miles.value}')
                               ],
                             ))
-                      ]),
+                          ]),
+                        ),
+                      )
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Container(
+                    height: 200.h,
+                    decoration: BoxDecoration(
+                      color: kLightwhite,
                     ),
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ProfileTitleWidget(
+                          title: 'Edite profile',
+                          icon: Icons.person,
+                          onTap: () {
+                            Get.to(() => EditProfileScreen());
+                          },
+                        ),
+                        ProfileTitleWidget(
+                            title: 'History voles', icon: Ionicons.planet),
+                        ProfileTitleWidget(
+                          title: 'Reclamtion',
+                          icon: Ionicons.chatbubble_outline,
+                          onTap: () async {
+                            Uri url = Uri.parse("mailto:");
+                            if (!await launchUrl(url)) {
+                              print('Could not launch $url');
+                            }
+                          },
+                        ),
+                        ProfileTitleWidget(
+                          title: 'Convert',
+                          icon: MaterialCommunityIcons.tag_outline,
+                          onTap: () {
+                            Get.to(() => MonyPage());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Container(
+                    height: 200.h,
+                    decoration: BoxDecoration(
+                      color: kLightwhite,
+                    ),
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ProfileTitleWidget(
+                            title: 'Shipping Address',
+                            icon: SimpleLineIcons.location_pin),
+                        ProfileTitleWidget(
+                            title: 'Servie Center',
+                            icon: AntDesign.customerservice),
+                        ProfileTitleWidget(
+                            title: 'Coupons', icon: MaterialIcons.rss_feed),
+                        ProfileTitleWidget(
+                            title: 'Setting', icon: AntDesign.setting),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  CustomButton(
+                    onTap: () {
+                      c.logout();
+                    },
+                    color: kRed,
+                    text: 'Logout',
+                    btnheigh: 35,
                   )
-                ]),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                height: 200.h,
-                decoration: BoxDecoration(
-                  color: kLightwhite,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ProfileTitleWidget(
-                      title: 'Edite profile',
-                      icon: Icons.person,
-                      onTap: () {
-                        Get.to(() => EditProfileScreen());
-                      },
-                    ),
-                    ProfileTitleWidget(
-                        title: 'History voles', icon: Ionicons.planet),
-                    ProfileTitleWidget(
-                      title: 'Reclamtion',
-                      icon: Ionicons.chatbubble_outline,
-                      onTap: () async {
-                        Uri url = Uri.parse("mailto:");
-                        if (!await launchUrl(url)) {
-                          print('Could not launch $url');
-                        }
-                      },
-                    ),
-                    ProfileTitleWidget(
-                      title: 'Convert',
-                      icon: MaterialCommunityIcons.tag_outline,
-                      onTap: () {
-                        Get.to(() => MonyPage());
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Container(
-                height: 200.h,
-                decoration: BoxDecoration(
-                  color: kLightwhite,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ProfileTitleWidget(
-                        title: 'Shipping Address',
-                        icon: SimpleLineIcons.location_pin),
-                    ProfileTitleWidget(
-                        title: 'Servie Center',
-                        icon: AntDesign.customerservice),
-                    ProfileTitleWidget(
-                        title: 'Coupons', icon: MaterialIcons.rss_feed),
-                    ProfileTitleWidget(
-                        title: 'Setting', icon: AntDesign.setting),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              CustomButton(
-                onTap: () {
-                  c.logout();
-                },
-                color: kRed,
-                text: 'Logout',
-                btnheigh: 35,
-              )
-            ],
-          )),
+                ],
+              )),
         ));
   }
 }
