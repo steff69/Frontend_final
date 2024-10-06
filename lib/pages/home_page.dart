@@ -22,14 +22,7 @@ class HomePage extends StatelessWidget {
             const Text("Tunisair Mobile"),
           ],
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(left: 8.0, right: 12),
-            child: CustomIconButton(
-              icon: Icon(Ionicons.notifications_outline),
-            ),
-          ),
-        ],
+      
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),

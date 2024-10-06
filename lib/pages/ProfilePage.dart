@@ -81,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Qual Miles : ${c.points.value}'),
-                                Text('Prime Moiles : ${c.miles.value}')
+                                Text('Prime Miles : ${c.miles.value}')
                               ],
                             ))
                           ]),
