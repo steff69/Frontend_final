@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Good Morning"),
+            const Text("Tunisair Mobile"),
           ],
         ),
         actions: const [

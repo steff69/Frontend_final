@@ -72,7 +72,7 @@ class RecommendedPlaces extends StatelessWidget {
                               size: 14,
                             ),
                             const Text(
-                              "4.4",
+                              "4.8",
                               style: TextStyle(
                                 fontSize: 12,
                               ),

@@ -22,7 +22,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 const Text(
-                  "Welcome to Tunisair Mobile",
+                  "Welcome to \nTunisair Mobile",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 26,
@@ -31,7 +31,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Your gateway to seamless travel and exclusive,\nFidelys benefits right at your fingertips.",
+                  "Your gateway to seamless travel and exclusive, Fidelys benefits right at your fingertips.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black54,

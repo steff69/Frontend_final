@@ -66,7 +66,7 @@ class NearbyPlaces extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text("Portic Team"),
+                            
                             const SizedBox(height: 10),
                             // DISTANCE WIDGET
                             const Distance(),
@@ -79,7 +79,7 @@ class NearbyPlaces extends StatelessWidget {
                                   size: 14,
                                 ),
                                 const Text(
-                                  "4.5",
+                                  "4.8",
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -91,7 +91,7 @@ class NearbyPlaces extends StatelessWidget {
                                         fontSize: 20,
                                         color: Theme.of(context).primaryColor,
                                       ),
-                                      text: "\$22",
+                                      text: "\€125",
                                       children: const [
                                         TextSpan(
                                             style: TextStyle(

@@ -64,17 +64,19 @@ class _MonyPageState extends State<MonyPage> {
               ],
             ),
             SizedBox(height: 10),
-            Text(
-              "if u want to convert your bonus miles to qualifying miles ",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
+            Center(
+                child: Text(
+                "if u want to convert your bonus miles to qualifying miles",
+                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+  ),
+),
             SizedBox(height: 10),
             Text(
               " Click Submit",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             Text(
-              " (  1mile = 0.6 point  )",
+              " (  1 mile prime = 0.6 mile qualifiant  )",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 20),
