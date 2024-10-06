@@ -123,7 +123,7 @@ class Carrd extends StatelessWidget {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '${item.from}',
+                              '${item.to}',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
