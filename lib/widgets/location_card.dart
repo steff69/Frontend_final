@@ -18,21 +18,25 @@ class LocationCard extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Your Location",
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Tunisia",
-                  style: Theme.of(context).textTheme.labelLarge,
-                )
-              ],
-            )
+  crossAxisAlignment: CrossAxisAlignment.start, // Ensures the text starts from the left
+  children: [
+    Text(
+      "Your Location",
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            fontSize: 16, // Adjust the size to your preference
+            color: Theme.of(context).primaryColor,
+          ),
+    ),
+    const SizedBox(height: 5),
+    Text(
+      "Tunis, Tunisia",
+      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+            fontSize: 14, // Adjust the size to your preference
+          ),
+    )
+  ],
+)
+
           ],
         ),
       ),

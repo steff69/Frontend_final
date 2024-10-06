@@ -35,7 +35,7 @@ class _MonyPageState extends State<MonyPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('converte your miles'),
+        title: Text('Convert your miles'),
       ),
       body: Padding(
         padding: EdgeInsets.all(15),
@@ -65,16 +65,16 @@ class _MonyPageState extends State<MonyPage> {
             ),
             SizedBox(height: 10),
             Text(
-              "if u want to convert your miles to Points ",
+              "if u want to convert your bonus miles to qualifying miles ",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 10),
             Text(
-              " u have to click on the button",
+              " Click Submit",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             Text(
-              " btw : (  1mile = 0.6 point  )",
+              " (  1mile = 0.6 point  )",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 20),
