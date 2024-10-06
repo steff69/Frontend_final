@@ -80,8 +80,8 @@ class ProfilePage extends StatelessWidget {
                             Obx(() => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('points : ${c.points.value}'),
-                                Text('miles : ${c.miles.value}')
+                                Text('Qual Miles : ${c.points.value}'),
+                                Text('Prime Moiles : ${c.miles.value}')
                               ],
                             ))
                           ]),
@@ -111,15 +111,22 @@ class ProfilePage extends StatelessWidget {
                         ProfileTitleWidget(
                             title: 'History voles', icon: Ionicons.planet),
                         ProfileTitleWidget(
-                          title: 'Reclamtion',
-                          icon: Ionicons.chatbubble_outline,
-                          onTap: () async {
-                            Uri url = Uri.parse("mailto:");
-                            if (!await launchUrl(url)) {
-                              print('Could not launch $url');
-                            }
-                          },
-                        ),
+                            title: 'Reclamtion',
+                            icon: Ionicons.chatbubble_outline,
+                            onTap: () async {
+    // Update the email address, subject, and body as needed
+                            Uri emailUri = Uri(
+                            scheme: 'mailto',
+                            path: 'resaonline@tunisair.com.tn', // Replace with the actual email address
+                            query: 'subject=Reclamation&body=DECLARATION:%0ANº Vol:%0ANº Carte:', // Optionally add a subject and body
+    );
+    
+    if (!await launchUrl(emailUri)) {
+      print('Could not launch $emailUri');
+    }
+  },
+),
+
                         ProfileTitleWidget(
                           title: 'Convert',
                           icon: MaterialCommunityIcons.tag_outline,
@@ -141,18 +148,7 @@ class ProfilePage extends StatelessWidget {
                     child: ListView(
                       padding: EdgeInsets.zero,
                       physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        ProfileTitleWidget(
-                            title: 'Shipping Address',
-                            icon: SimpleLineIcons.location_pin),
-                        ProfileTitleWidget(
-                            title: 'Servie Center',
-                            icon: AntDesign.customerservice),
-                        ProfileTitleWidget(
-                            title: 'Coupons', icon: MaterialIcons.rss_feed),
-                        ProfileTitleWidget(
-                            title: 'Setting', icon: AntDesign.setting),
-                      ],
+                   
                     ),
                   ),
                   SizedBox(
