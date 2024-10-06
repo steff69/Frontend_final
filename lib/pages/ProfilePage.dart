@@ -102,16 +102,16 @@ class ProfilePage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         ProfileTitleWidget(
-                          title: 'Edite profile',
+                          title: 'Edit profil',
                           icon: Icons.person,
                           onTap: () {
                             Get.to(() => EditProfileScreen());
                           },
                         ),
                         ProfileTitleWidget(
-                            title: 'History voles', icon: Ionicons.planet),
+                            title: 'Vol History', icon: Ionicons.planet),
                         ProfileTitleWidget(
-                            title: 'Reclamtion',
+                            title: 'Reclamation',
                             icon: Ionicons.chatbubble_outline,
                             onTap: () async {
     // Update the email address, subject, and body as needed
@@ -128,7 +128,7 @@ class ProfilePage extends StatelessWidget {
 ),
 
                         ProfileTitleWidget(
-                          title: 'Convert',
+                          title: 'Convert Miles',
                           icon: MaterialCommunityIcons.tag_outline,
                           onTap: () {
                             Get.to(() => MonyPage());

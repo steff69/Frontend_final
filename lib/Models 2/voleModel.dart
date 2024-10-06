@@ -18,6 +18,8 @@ class FlightData {
   String to;
   String date;
   String time;
+  String deptime;
+  String arrtime;
   int version;
 
   FlightData({
@@ -26,6 +28,8 @@ class FlightData {
     required this.to,
     required this.date,
     required this.time,
+    required this.deptime,
+    required this.arrtime,
     required this.version,
   });
 
@@ -35,6 +39,8 @@ class FlightData {
         to: json["to"],
         date: json["date"],
         time: json["time"],
+        deptime: json["deptime"],
+        arrtime: json["arrtime"],
         version: json["__v"],
       );
 
@@ -44,6 +50,8 @@ class FlightData {
         "to": to,
         "date": date,
         "time": time,
+        "time": deptime,
+        "time": arrtime,
         "__v": version,
       };
 }
