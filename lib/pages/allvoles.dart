@@ -133,6 +133,14 @@ class Carrd extends StatelessWidget {
                         ),
                         Text(' ${item.date}')
                       ],
+                    SizedBox(
+                          height: 10,
+                        ),
+                        Text(' ${item.deptime}')
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(' ${item.arrtime}')
                     ),
                     Icon(
                       Icons.airplanemode_active,

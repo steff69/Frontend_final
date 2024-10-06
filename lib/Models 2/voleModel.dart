@@ -50,8 +50,8 @@ class FlightData {
         "to": to,
         "date": date,
         "time": time,
-        "time": deptime,
-        "time": arrtime,
+        "deptime": deptime,
+        "arrtime": arrtime,
         "__v": version,
       };
 }
