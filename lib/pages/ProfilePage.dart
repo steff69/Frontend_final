@@ -137,20 +137,7 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  Container(
-                    height: 200.h,
-                    decoration: BoxDecoration(
-                      color: kLightwhite,
-                    ),
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                   
-                    ),
-                  ),
+                 
                   SizedBox(
                     height: 20.h,
                   ),
