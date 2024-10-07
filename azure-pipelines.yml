@@ -112,7 +112,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-backend-report.json
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.json
   displayName: 'Run Trivy Scan on Frontend'
 
 # Trivy scan for the backend Docker image
