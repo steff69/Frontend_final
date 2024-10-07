@@ -127,14 +127,14 @@ steps:
 # Publish Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-frontend-report.html'
+    PathtoPublish: 'trivy-frontend-report.json'
     artifactName: 'TrivyFrontendReport'
     publishLocation: 'Container'
   displayName: 'Publish Trivy Frontend Report'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-backend-report.html'
+    PathtoPublish: 'trivy-backend-report.json'
     artifactName: 'TrivyBackendReport'
     publishLocation: 'Container'
   displayName: 'Publish Trivy Backend Report'
