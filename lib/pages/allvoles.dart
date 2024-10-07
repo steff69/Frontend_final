@@ -11,152 +11,192 @@ class AllVolesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainScreen(),
-                  ));
-            },
-            child: Icon(Icons.arrow_back)),
-      ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: 700,
-          child: ListView.separated(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) => Carrd(item: alldataList[index]),
-            separatorBuilder: (context, index) =>
-                const Padding(padding: EdgeInsets.only(right: 10)),
-            itemCount: alldataList.length,
-          ),
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainScreen(),
+              ),
+            );
+          },
+          child: Icon(Icons.arrow_back),
         ),
+      ),
+      body: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        itemBuilder: (context, index) => FlightCard(item: alldataList[index]),
+        separatorBuilder: (context, index) =>
+        const SizedBox(height: 10), // Add space between the cards
+        itemCount: alldataList.length,
       ),
     );
   }
 }
 
-class Carrd extends StatelessWidget {
-  Carrd({super.key, required this.item});
+class FlightCard extends StatelessWidget {
+  FlightCard({super.key, required this.item});
   FlightData item;
+
   @override
   Widget build(BuildContext context) {
-    void _showReserveDialog(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Reserve Vole'),
-            content: Text('Do you want to reserve this vole?'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
+    return GestureDetector(
+      onTap: () {
+        _showReserveDialog(context);
+      },
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        shadowColor: Colors.grey.shade400,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Flight date (only displayed once above everything)
+              Text(
+                item.date,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.indigo, // Same color as the others
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              TextButton(
-                child: Text('Reserve'),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pop(); // Perform reservation action and close the dialog
-                  // Add reservation logic here if needed
-                },
+              const SizedBox(height: 10),
+
+              // Main flight information (Time, Airport)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTimeColumn(item.deptime ?? 'N/A', item.from),
+                  _buildMiddleSection(),
+                  _buildTimeColumn(item.arrtime ?? 'N/A', item.to),
+                ],
+              ),
+              const SizedBox(height: 10),
+              // Flight duration information
+              Center(
+                child: Text(
+                  'Duration: ${item.time}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Price displayed at the bottom-left
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Price: \$${item.price}',  // Adjust the price here
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ],
-          );
-        },
-      );
-    }
-
-    return Container(
-      margin: EdgeInsets.all(15),
-      child: GestureDetector(
-        onTap: () {
-          _showReserveDialog(context);
-        },
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          shadowColor: Colors.black54,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Travel Itinerary',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'From: ${item.from}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              '${item.from}',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              '---------->',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              '${item.to}',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(' ${item.date}')
-                      ],
-                    ),
-                    Icon(
-                      Icons.airplanemode_active,
-                      color: Colors.blue,
-                      size: 30,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    'Duration: ${item.time}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
+    );
+  }
+
+  // Builds the time and airport columns for the flight
+  Widget _buildTimeColumn(String time, String airport) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          time,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.indigo,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          airport,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.indigo,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Builds the middle section with the flight path and "nonstop" tag
+  Widget _buildMiddleSection() {
+    return Column(
+      children: [
+        const SizedBox(
+          width: 100,
+          child: Divider(
+            thickness: 2,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade100,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Text(
+            'nonstop',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
+        const SizedBox(
+          width: 100,
+          child: Divider(
+            thickness: 2,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showReserveDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Reserve Flight'),
+          content: const Text('Do you want to reserve this flight?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Reserve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Add reservation logic here
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

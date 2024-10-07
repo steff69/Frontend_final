@@ -18,8 +18,9 @@ class FlightData {
   String to;
   String date;
   String time;
-  String deptime;
-  String arrtime;
+  String? deptime;
+  String? arrtime;
+  String? price;
   int version;
 
   FlightData({
@@ -28,8 +29,9 @@ class FlightData {
     required this.to,
     required this.date,
     required this.time,
-    required this.deptime,
-    required this.arrtime,
+    this.deptime,
+    this.arrtime,
+    this.price,
     required this.version,
   });
 
@@ -39,9 +41,11 @@ class FlightData {
         to: json["to"],
         date: json["date"],
         time: json["time"],
-        deptime: json["deptime"],
-        arrtime: json["arrtime"],
-        version: json["__v"],
+        deptime: json["deptime"] != null ? json["deptime"] : null,
+        arrtime: json["arrtime"] != null ? json["arrtime"] : null,
+        price: json["price"] != null ? json["price"] : null,
+
+    version: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,8 +54,10 @@ class FlightData {
         "to": to,
         "date": date,
         "time": time,
-        "deptime": deptime,
-        "arrtime": arrtime,
-        "__v": version,
+    "deptime": deptime,
+    "arrtime": arrtime,
+    "price": price,
+
+    "__v": version,
       };
 }
