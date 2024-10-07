@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:travel_app/Models%202/RegisterModel.dart';
@@ -77,6 +76,25 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Image.asset(
                   'assets/t.jpg',
                   fit: BoxFit.cover,
+                ),
+              ),
+
+              SizedBox(
+                height: 20.h, // Space between image and the new text
+              ),
+
+              // Motivational text below the image
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Sign up today for exclusive deals and smooth bookings.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
 
@@ -193,10 +211,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     // Register button
                     Obx(() => c.loading.value
                         ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                          strokeAlign: 1,
-                        ))
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                        strokeAlign: 1,
+                      ),
+                    )
                         : CustomButton(
                       onTap: () {
                         RegisterModel model = RegisterModel(
@@ -211,7 +230,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     )),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

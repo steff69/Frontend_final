@@ -76,12 +76,12 @@ class _LoginPageState extends State<LoginPage> {
               // Making image with bottom convex corners
               ClipRRect(
                 borderRadius: BorderRadius.only(
-                  
+
                   topRight: Radius.circular(40),
                   topLeft: Radius.circular(40),// Convex bottom right
 // Convex bottom right
                 ),
-                child: Image.asset('assets/cen.png'), // Image at the top
+                child: Image.asset('assets/t.jpg'), // Image at the top
               ),
 
               // Add space between the image and quote
