@@ -112,7 +112,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.json
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.html
   displayName: 'Run Trivy Scan on Frontend'
 
 # Trivy scan for the backend Docker image
@@ -120,21 +120,21 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.json
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.html
 
   displayName: 'Run Trivy Scan on Backend'
 
 # Publish Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-frontend-report.json'
+    PathtoPublish: 'trivy-frontend-report.html'
     artifactName: 'TrivyFrontendReport'
     publishLocation: 'Container'
   displayName: 'Publish Trivy Frontend Report'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-backend-report.json'
+    PathtoPublish: 'trivy-backend-report.html'
     artifactName: 'TrivyBackendReport'
     publishLocation: 'Container'
   displayName: 'Publish Trivy Backend Report'
