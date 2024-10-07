@@ -73,8 +73,8 @@ steps:
     SonarQube: 'seviceconnsonarjdid'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'Front_TunisairMob2'
-    cliProjectName: 'Front_TunisairMob2'
+    cliProjectKey: 'Frontend_final'
+    cliProjectName: 'Frontend_final'
     cliSources: '.'  # Scans the frontend files in the root directory
     extraProperties: |
      sonar.java.binaries=.
@@ -93,8 +93,8 @@ steps:
     SonarQube: 'seviceconnsonarjdid'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'Back_TunisairMob2'
-    cliProjectName: 'Back_TunisairMob2'
+    cliProjectKey: 'Backend_final'
+    cliProjectName: 'Backend_final'
     cliSources: 'backend/'  # Scans the backend code under the 'backend' directory
     extraProperties: |
       sonar.nodejs.binaries=backend
