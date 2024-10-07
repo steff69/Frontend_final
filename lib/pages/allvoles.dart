@@ -21,14 +21,27 @@ class AllVolesPage extends StatelessWidget {
           },
           child: Icon(Icons.arrow_back),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0, // Remove the AppBar shadow for a clean look
       ),
-      body: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-        itemBuilder: (context, index) => FlightCard(item: alldataList[index]),
-        separatorBuilder: (context, index) =>
-        const SizedBox(height: 10), // Add space between the cards
-        itemCount: alldataList.length,
+      extendBodyBehindAppBar: true, // Extend the gradient behind the app bar
+      body: Container(
+        // Apply the background gradient here
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF002C3E), Color(0xFF00506A)], // Dark blue gradient
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView.separated(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          itemBuilder: (context, index) => FlightCard(item: alldataList[index]),
+          separatorBuilder: (context, index) =>
+          const SizedBox(height: 10), // Add space between the cards
+          itemCount: alldataList.length,
+        ),
       ),
     );
   }
