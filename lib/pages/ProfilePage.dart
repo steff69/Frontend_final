@@ -53,6 +53,7 @@ class ProfilePage extends StatelessWidget {
                   top: 110.h, // Adjusted for better positioning
                   left: 20.w,
                   right: 20.w,
+
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -84,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.black87,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.sp),
+                                      fontSize: 14.sp),
                                 ),
                                 Text(
                                   user != null && user["email"] != null
