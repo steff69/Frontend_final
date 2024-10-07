@@ -67,6 +67,85 @@ steps:
   displayName: 'Run Backend Tests'
   
 
+# SonarQube Analysis (Frontend)
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'seviceconnsonarjdid'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Front_TunisairMob2'
+    cliProjectName: 'Front_TunisairMob2'
+    cliSources: '.'  # Scans the frontend files in the root directory
+    extraProperties: |
+     sonar.java.binaries=.
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@6
+  inputs:
+    pollingTimeoutSec: '600'
+
+# SonarQube Analysis (Backend)
+
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'seviceconnsonarjdid'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Back_TunisairMob2'
+    cliProjectName: 'Back_TunisairMob2'
+    cliSources: 'backend/'  # Scans the backend code under the 'backend' directory
+    extraProperties: |
+      sonar.nodejs.binaries=backend
+
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@6
+  inputs:
+      pollingTimeoutSec: '600'
+
+# Run Dependency Check (Frontend)
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/6/s' --format 'HTML' --out '/home/azureuser/myagent/_work/6/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
+  displayName: 'Run Dependency Check'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/dependency-check'
+    artifactName: 'DependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Dependency Check Report'
+
+# Run Dependency Check (Backend)
+- task: Bash@3
+  inputs:
+      targetType: 'inline'
+      script: |
+        export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+        /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" \
+        --scan 'backend/' \
+        --format 'HTML' \
+        --out '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check' \
+        --data /home/azureuser/dependency-check/data \
+        --noupdate \
+        --disableAssembly \
+        --disableYarnAudit
+  displayName: 'Run Dependency Check for Backend'
+
+# Publish Backend Dependency Check Results
+- task: PublishBuildArtifacts@1
+  inputs:
+      PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check'
+      artifactName: 'BackendDependencyCheckReport1'
+      publishLocation: 'Container'
+  displayName: 'Publish Backend Dependency Check Report'
 
 
 
