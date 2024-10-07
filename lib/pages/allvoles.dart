@@ -88,15 +88,15 @@ class FlightCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Price displayed at the bottom-left
+              // Price displayed at the bottom-right
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end, // Align to the right
                 children: [
                   Text(
-                    'Price: \$${item.price}',  // Adjust the price here
+                    ' \$${item.price} / person',  // Adjusted the price format here
                     style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.indigo,
+                      fontSize: 18, // Slightly larger for emphasis
+                      color: Colors.indigo, // Now matches the color for "from" and "to"
                       fontWeight: FontWeight.bold,
                     ),
                   ),
