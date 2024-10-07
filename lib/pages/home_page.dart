@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:travel_app/widgets/custom_icon_button.dart';
 import 'package:travel_app/widgets/location_card.dart';
 import 'package:travel_app/widgets/nearby_places.dart';
 import 'package:travel_app/widgets/recommended_places.dart';
@@ -60,32 +59,23 @@ class HomePage extends StatelessWidget {
   Widget _buildAppBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Tunisair Mobile",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                "Discover your next adventure",
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
+          Text(
+            "Tunisair Mobile",
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const CircleAvatar(
-            radius: 22,
-            backgroundImage: AssetImage('assets/profile_image.png'), // Add user profile image
+          const SizedBox(height: 5),
+          Text(
+            "Discover your next adventure",
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              color: Colors.white70,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ],
       ),

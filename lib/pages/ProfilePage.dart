@@ -4,7 +4,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:travel_app/common/custom_container.dart';
-import 'package:travel_app/common/shimmers/ProfileAppBar.dart';
 import 'package:travel_app/common/shimmers/cutomButtomn.dart';
 import 'package:travel_app/constants/constants.dart';
 import 'package:travel_app/controller/LoginController.dart';
@@ -14,8 +13,34 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:travel_app/pages/VoleMain.dart';
 import 'package:travel_app/pages/home_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  int _selectedIndex = 0;
+
+  // Function to handle tab switching in the bottom navigation bar
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Get.to(() => HomePage());
+        break;
+      case 1:
+        Get.to(() => TravelFormScreen());
+        break;
+      case 2:
+        Get.to(() => ProfilePage());
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +49,42 @@ class ProfilePage extends StatelessWidget {
     var user = box.read("user");
 
     return Scaffold(
-      backgroundColor: Colors.white, // Set background to white
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.h), child: ProfileAppBar()),
+        preferredSize: Size.fromHeight(60.h),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF002C3E), Color(0xFF00506A)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          title: Text(
+            "Profile",
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 0,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Enhanced Profile Section
             Stack(
               children: [
-                // Gradient Background
                 Container(
                   height: 180.h,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF002C3E), Color(0xFF00506A)], // Gradient from dark to lighter blue
+                      colors: [Color(0xFF002C3E), Color(0xFF00506A)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -48,19 +94,17 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Profile Card
                 Positioned(
-                  top: 110.h, // Adjusted for better positioning
+                  top: 110.h,
                   left: 20.w,
                   right: 20.w,
-
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     elevation: 5,
                     child: Padding(
-                      padding: EdgeInsets.all(16.w), // Increased padding
+                      padding: EdgeInsets.all(16.w),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -74,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 7.w),
-                          Expanded( // Wrap this part with Expanded to avoid overflow
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -99,7 +143,7 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(width: 10.w), // Adds spacing between elements
+                          SizedBox(width: 10.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -122,13 +166,13 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 40.h), // Adjusted spacing for visual balance
+            SizedBox(height: 40.h),
 
-            // Menu Options in Grid Layout
+            // GridView for Profile options
             GridView.count(
-              shrinkWrap: true, // Makes sure the GridView takes only the space it needs
-              crossAxisCount: 2, // Two columns
-              childAspectRatio: 1.5, // Adjust for height/width ratio
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              childAspectRatio: 1.5,
               crossAxisSpacing: 12.w,
               mainAxisSpacing: 12.h,
               padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -151,8 +195,7 @@ class ProfilePage extends StatelessWidget {
                     Uri emailUri = Uri(
                       scheme: 'mailto',
                       path: 'resaonline@tunisair.com.tn',
-                      query:
-                      'subject=Reclamation&body=DECLARATION:%0ANº Vol:%0ANº Carte:',
+                      query: 'subject=Reclamation&body=DECLARATION:%0ANº Vol:%0ANº Carte:',
                     );
                     if (!await launchUrl(emailUri)) {
                       print('Could not launch $emailUri');
@@ -166,31 +209,26 @@ class ProfilePage extends StatelessWidget {
                     Get.to(() => MonyPage());
                   },
                 ),
-                // New Grid Item for Search a Flight (TravelFormScreen)
                 ProfileGridItem(
                   title: 'Search a Flight',
                   icon: Ionicons.search,
                   onTap: () {
-                    Get.to(() => TravelFormScreen());  // Navigate to TravelFormScreen
+                    Get.to(() => TravelFormScreen());
                   },
                 ),
-                // New Grid Item for Return Home
                 ProfileGridItem(
                   title: 'Welcome Page',
                   icon: Icons.home,
                   onTap: () {
-                    Get.to(() => HomePage());  // Navigate to HomePage
+                    Get.to(() => HomePage());
                   },
                 ),
               ],
             ),
 
-            // Add space between grid and logout button
             SizedBox(height: 20.h),
-
-            // Logout Button pinned with a little space above
             Container(
-              padding: EdgeInsets.only(bottom: 20.h), // Adds padding at the bottom
+              padding: EdgeInsets.only(bottom: 20.h),
               width: double.infinity,
               child: CustomButton(
                 onTap: () {
@@ -203,6 +241,25 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Flights',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -222,14 +279,14 @@ class ProfileGridItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xFF8B0000), // Background color of the grid item (red)
+          color: Color(0xFF8B0000),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3), // Changes position of shadow
+              offset: Offset(0, 3),
             ),
           ],
         ),
@@ -240,13 +297,13 @@ class ProfileGridItem extends StatelessWidget {
             Icon(
               icon,
               size: 36.sp,
-              color: Colors.white, // Icon color changed to white
+              color: Colors.white,
             ),
             SizedBox(height: 10.h),
             Text(
               title,
               style: TextStyle(
-                color: Colors.white, // Text color changed to white
+                color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 16.sp,
               ),

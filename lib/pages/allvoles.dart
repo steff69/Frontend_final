@@ -26,21 +26,44 @@ class AllVolesPage extends StatelessWidget {
       ),
       extendBodyBehindAppBar: true, // Extend the gradient behind the app bar
       body: Container(
-        // Apply the background gradient here
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF002C3E), Color(0xFF00506A)], // Dark blue gradient
+            colors: [Color(0xFF002C3E), Color(0xFF00506A)], // Background gradient
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          itemBuilder: (context, index) => FlightCard(item: alldataList[index]),
-          separatorBuilder: (context, index) =>
-          const SizedBox(height: 10), // Add space between the cards
-          itemCount: alldataList.length,
+        child: Column(
+          children: [
+            SizedBox(height: 80), // Space between header and label
+
+            // Add the label for available trips
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                'Choose Your Flight : ', // Change this text as needed
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24, // Font size for the label
+                  fontWeight: FontWeight.bold, // Make the label bold
+                  color: Colors.white, // White color for the label
+                  letterSpacing: 1.2, // Slight letter spacing for style
+                ),
+              ),
+            ),
+
+            SizedBox(height: 20), // Space between label and the list of trips
+
+            Expanded(
+              child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                itemBuilder: (context, index) => FlightCard(item: alldataList[index]),
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                itemCount: alldataList.length,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -58,22 +81,22 @@ class FlightCard extends StatelessWidget {
         _showReserveDialog(context);
       },
       child: Card(
-        elevation: 5,
+        elevation: 6,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
-        shadowColor: Colors.grey.shade400,
+        shadowColor: Colors.grey.shade300,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Flight date (only displayed once above everything)
+              // Flight date displayed above everything
               Text(
                 item.date,
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Colors.indigo, // Same color as the others
+                  color: Colors.blueGrey, // Use a subtle color for the date
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -89,14 +112,13 @@ class FlightCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
+
               // Flight duration information
-              Center(
-                child: Text(
-                  'Duration: ${item.time}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+              Text(
+                'Duration: ${item.time}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
                 ),
               ),
               const SizedBox(height: 10),
@@ -106,10 +128,10 @@ class FlightCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end, // Align to the right
                 children: [
                   Text(
-                    ' \$${item.price} / person',  // Adjusted the price format here
+                    ' \$${item.price} / person',
                     style: const TextStyle(
                       fontSize: 18, // Slightly larger for emphasis
-                      color: Colors.indigo, // Now matches the color for "from" and "to"
+                      color: Colors.indigo, // Matches the color for time and location
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -141,7 +163,7 @@ class FlightCard extends StatelessWidget {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.indigo,
+            color: Colors.grey,
           ),
         ),
       ],
@@ -152,33 +174,27 @@ class FlightCard extends StatelessWidget {
   Widget _buildMiddleSection() {
     return Column(
       children: [
-        const SizedBox(
-          width: 100,
-          child: Divider(
-            thickness: 2,
-            color: Colors.grey,
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade100,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: const Text(
-            'nonstop',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.blue,
+        Row(
+          children: [
+            Icon(Icons.flight_takeoff, color: Colors.grey, size: 16),
+            const SizedBox(width: 5),
+            const Text(
+              'Nonstop',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.blue,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
+            const SizedBox(width: 5),
+            Icon(Icons.flight_land, color: Colors.grey, size: 16),
+          ],
         ),
         const SizedBox(height: 5),
         const SizedBox(
           width: 100,
           child: Divider(
-            thickness: 2,
+            thickness: 1.5,
             color: Colors.grey,
           ),
         ),

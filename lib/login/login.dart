@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:travel_app/Models%202/LoginModel.dart';
 import 'package:travel_app/Register/register.dart';
@@ -40,19 +39,31 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent, // Make app bar background transparent
-        title: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MainScreen(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h),
+        child: AppBar(
+          backgroundColor: Colors.transparent, // Set to transparent to show gradient
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [ Color(0xFF00506A),Color(0xFF002C3E)], // Same gradient as ProfilePage
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-            );
-          },
-          child: Icon(Icons.arrow_back),
+            ),
+          ),
+          title: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MainScreen(),
+                ),
+              );
+            },
+            child: Icon(Icons.arrow_back, color: Colors.white), // White back icon
+          ),
+          elevation: 0, // No shadow
         ),
       ),
       body: Container(
@@ -69,25 +80,17 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.only(),
           child: ListView(
             children: [
-              SizedBox(
-                height: 5.h,
-              ),
+              SizedBox(height: 5.h),
 
-              // Making image with bottom convex corners
+              // Image with convex corners
               ClipRRect(
                 borderRadius: BorderRadius.only(
-
-                  topRight: Radius.circular(40),
-                  topLeft: Radius.circular(40),// Convex bottom right
-// Convex bottom right
+                 
                 ),
                 child: Image.asset('assets/t.jpg'), // Image at the top
               ),
 
-              // Add space between the image and quote
-              SizedBox(
-                height: 20.h, // Adjust this for more or less space
-              ),
+              SizedBox(height: 20.h), // Space below the image
 
               // Quote Styled Text
               Padding(
@@ -98,17 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.sp,
-                    fontStyle: FontStyle.italic, // Make the text italic
-                    fontWeight: FontWeight.w300, // Light weight to give it a "quote" feel
-                    letterSpacing: 1.2, // Add letter spacing to make it more elegant
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w300, // Light weight for "quote" feel
+                    letterSpacing: 1.2, // Elegant letter spacing
                   ),
                 ),
               ),
 
-              // Adding more space between the quote and "Sign In" text
-              SizedBox(
-                height: 30.h, // Adjust this for more or less space
-              ),
+              SizedBox(height: 30.h), // Space before "Sign In"
 
               // Sign In Text
               Padding(
@@ -119,20 +119,18 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 28.sp,
-                    fontWeight: FontWeight.bold, // Bold and larger to stand out
+                    fontWeight: FontWeight.bold, // Bold to stand out
                   ),
                 ),
               ),
 
-              // Space between the quote and the login fields
-              SizedBox(
-                height: 30.h,
-              ),
+              SizedBox(height: 30.h), // Space before fields
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
+                    // Email TextField
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -144,28 +142,28 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white, // White icon color
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)), // Rounded corners for the border
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           borderSide: BorderSide(
-                            color: Colors.white, // White border for the enabled state
-                            width: 2.0, // Define border thickness
+                            color: Colors.white, // White border
+                            width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)), // Rounded corners for the border
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           borderSide: BorderSide(
-                            color: Colors.blue, // Blue border for the focused state
-                            width: 2.0, // Define border thickness
+                            color: Colors.blue, // Blue border for focus
+                            width: 2.0,
                           ),
                         ),
                       ),
                       style: TextStyle(color: Colors.white), // White input text
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+                    SizedBox(height: 20.h),
+
+                    // Password TextField
                     TextField(
                       controller: _passwordController,
-                      obscureText: true, // To hide the password input
+                      obscureText: true, // Hide password input
                       decoration: InputDecoration(
                         hintText: "Password",
                         hintStyle: TextStyle(color: Colors.white), // White hint text
@@ -175,27 +173,28 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white, // White icon color
                         ),
                         suffixIcon: Icon(
-                          Icons.visibility_off, // This icon can toggle visibility
+                          Icons.visibility_off, // Visibility toggle icon
                           color: Colors.white,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)), // Rounded corners for the border
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           borderSide: BorderSide(
-                            color: Colors.white, // White border for the enabled state
-                            width: 2.0, // Define border thickness
+                            color: Colors.white, // White border
+                            width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)), // Rounded corners for the border
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           borderSide: BorderSide(
-                            color: Colors.blue, // Blue border for the focused state
-                            width: 2.0, // Define border thickness
+                            color: Colors.blue, // Blue border for focus
+                            width: 2.0,
                           ),
                         ),
                       ),
                       style: TextStyle(color: Colors.white), // White input text
                     ),
 
+                    // Register link
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
@@ -208,28 +207,30 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               'Register',
                               style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+                    SizedBox(height: 20.h),
+
+                    // Login Button
                     Obx(() => c.loading.value
                         ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                          strokeAlign: 1,
-                        ))
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      ),
+                    )
                         : CustomButton(
                       onTap: () {
                         LoginModel model = LoginModel(
-                            email: _emailController.text,
-                            password: _passwordController.text);
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
                         String data = loginModelToJson(model);
                         c.loginFunction(data);
                       },

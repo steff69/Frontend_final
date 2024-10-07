@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/login/login.dart';
 import 'package:travel_app/pages/MainScreen.dart';
-import 'package:travel_app/pages/VoleMain.dart';
-import 'package:travel_app/pages/home_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -10,61 +7,94 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const Spacer(),
-                Image.asset(
-                  'assets/t.jpg',
-                ),
-                const SizedBox(height: 40),
-                const Text(
-                  "Welcome to \nTunisair Mobile",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+      // Add gradient background here
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF002C3E), Color(0xFF00506A)], // Match other page backgrounds
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const Spacer(),
+
+                  // Image Section with some spacing adjustments
+                  Image.asset(
+                    'assets/logoe.png',
+                    height: 180, // Adjust height for better layout
                   ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Your gateway to seamless travel and exclusive, Fidelys benefits right at your fingertips.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 16,
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: SizedBox(
-                    width: double.maxFinite,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainScreen(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 8.0,
-                        ),
-                      ),
-                      child: const Text("Get Started"),
+
+                  const SizedBox(height: 40),
+
+                  // Main Welcome Text
+                  const Text(
+                    "Welcome to \nTunisair Mobile",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 28, // Slightly larger for emphasis
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // White for good contrast
+                      height: 1.4, // Adjust line height for better readability
                     ),
                   ),
-                )
-              ],
+
+                  const SizedBox(height: 20),
+
+                  // Subtitle Text
+                  const Text(
+                    "Your gateway to seamless travel and exclusive Fidelys benefits right at your fingertips.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white70, // Subtle white for softer contrast
+                      fontSize: 16,
+                      height: 1.5, // Increased line height for easier reading
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  // Button Section
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 40), // More space at the bottom
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          shape: const StadiumBorder(), // Rounded button for modern look
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 18, // Larger vertical padding for a premium feel
+                            horizontal: 16,
+                          ),
+                          backgroundColor: const Color(0xFF00506A), // Matching theme color
+                        ),
+                        child: const Text(
+                          "Get Started",
+                          style: TextStyle(
+                            fontSize: 18, // Slightly larger font size for readability
+                            fontWeight: FontWeight.bold, // Bold for emphasis
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

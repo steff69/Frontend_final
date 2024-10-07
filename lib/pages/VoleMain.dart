@@ -9,8 +9,8 @@ class TravelFormScreen extends StatefulWidget {
 }
 
 class _TravelFormScreenState extends State<TravelFormScreen> {
-  String? selectedFromLocation = 'France'; // Default value for From
-  String? selectedToLocation = 'Italy'; // Default value for To
+  String? selectedFromLocation = 'Tunisia'; // Default value for From
+  String? selectedToLocation = 'France'; // Default value for To
   int selectedAdults = 1;
   String? selectedTripType = 'One Way'; // Default value for Trip Type
 
@@ -19,17 +19,30 @@ class _TravelFormScreenState extends State<TravelFormScreen> {
     var c = Get.put(VoleMainController());
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF4F739E),
-        title: Text(
-          "Search flight",
-          style: TextStyle(
-            fontSize: 22.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h), // Adjust the height of the AppBar
+        child: AppBar(
+          backgroundColor: Colors.transparent, // Set to transparent to show gradient
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF00506A), Color(0xFF002C3E)], // Same gradient as body
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
           ),
+          title: Text(
+            "Search flight",
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 0, // Remove shadow below the AppBar
         ),
-        centerTitle: true,
       ),
       body: Container(
         width: double.infinity,
@@ -59,12 +72,11 @@ class _TravelFormScreenState extends State<TravelFormScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
+
                   ),
                   child: Image.asset(
-                    'assets/cen.png',
-                    height: 200.h,
+                    'assets/t.jpg',
+                    height: 210.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),

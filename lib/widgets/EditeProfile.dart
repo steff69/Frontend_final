@@ -48,11 +48,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: Colors.transparent, // Transparent to apply gradient
+        elevation: 0, // No shadow
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF00506A), Color(0xFF002C3E)], // Matching gradient
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
         title: Text(
           'Edit Profile',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 22),
         ),
         centerTitle: true,
       ),
@@ -76,7 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   mainAxisSize: MainAxisSize.min,  // To keep the form size dynamic
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(height: 20), // Fixed height without screenutil
+                    SizedBox(height: 20),
 
                     // Name label
                     Text(
@@ -87,7 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 10), // Fixed height without screenutil
+                    SizedBox(height: 10),
 
                     // Name input field
                     TextFormField(
