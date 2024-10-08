@@ -6,226 +6,239 @@ pool:
   demands:
     - agent.name -equals BestVM
 
-stages:
-  - stage: CloneRepositories
-    displayName: 'Clone Repositories'
-    jobs:
-      - job: CloneJob
-        steps:
-          - script: |
-              export BUILD_ID=$(Build.BuildId)
-              echo "BUILD_ID is set to: $BUILD_ID"
-            displayName: 'Export Build ID'
-
-          - script: |
-              ls -la $(Build.SourcesDirectory)
-              git clone https://github.com/steff69/Backend_final.git backend
-            displayName: 'Clone Backend Repository'
-
-  - stage: RunFlutterUpdates
-    displayName: 'Run Flutter Updates'
-    dependsOn: CloneRepositories
-    jobs:
-      - job: FlutterUpdateJob
-        steps:
-          - script: |
-              flutter --version
-              flutter pub outdated
-              flutter pub upgrade --major-versions
-              flutter pub get 
-            displayName: 'Run Flutter Updates'
-
-  - stage: RunTests
-    displayName: 'Run Tests'
-    dependsOn: RunFlutterUpdates
-    jobs:
-      - job: TestJob
-        steps:
-          - script: |
-              flutter --version
-              flutter pub get
-              flutter pub run build_runner build
-            displayName: 'Run Integration Test'
-
-  - stage: BuildFrontend
-    displayName: 'Build Frontend APK'
-    dependsOn: RunTests
-    jobs:
-      - job: BuildAPKJob
-        steps:
-          - script: |
-              flutter clean
-              flutter pub get
-              flutter build apk --release --verbose
-            displayName: 'Build APK Front'
-
-  - stage: RunBackendTests
-    displayName: 'Run Backend Tests'
-    dependsOn: CloneRepositories
-    jobs:
-      - job: BackendTestJob
-        steps:
-          - script: |
-              cd backend
-              npm install
-            displayName: 'Install Backend Dependencies'
+steps:
+- script: |
+    export BUILD_ID=$(Build.BuildId)
+    echo "BUILD_ID is set to: $BUILD_ID"
+  displayName: 'Export Build ID'
   
-  - stage: SonarQubeAnalysis
-    displayName: 'SonarQube Analysis'
-    dependsOn: [RunTests, RunBackendTests]
-    jobs:
-      - job: SonarQubeFrontendJob
-        displayName: 'SonarQube Analysis for Frontend'
-        steps:
-          - task: SonarQubePrepare@6
-            inputs:
-              SonarQube: 'seviceconnsonarjdid'
-              scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: 'Frontend_final'
-              cliProjectName: 'Frontend_final'
-              cliSources: '.' 
-              extraProperties: |
-                sonar.java.binaries=.
-          - task: SonarQubeAnalyze@6
-            inputs:
-              jdkversion: 'JAVA_HOME_17_X64'
-          - task: SonarQubePublish@6
-            inputs:
-              pollingTimeoutSec: '600'
+- script: |
+    ls -la $(Build.SourcesDirectory)
+    git clone https://github.com/steff69/Backend_final.git backend
+  displayName: 'Clone Backend Repository'
 
-      - job: SonarQubeBackendJob
-        displayName: 'SonarQube Analysis for Backend'
-        steps:
-          - task: SonarQubePrepare@6
-            inputs:
-              SonarQube: 'seviceconnsonarjdid'
-              scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: 'Backend_final'
-              cliProjectName: 'Backend_final'
-              cliSources: 'backend/'
-              extraProperties: |
-                sonar.nodejs.binaries=backend
-          - task: SonarQubeAnalyze@6
-            inputs:
-              jdkversion: 'JAVA_HOME_17_X64'
-          - task: SonarQubePublish@6
-            inputs:
-              pollingTimeoutSec: '600'
+# Run Flutter updates
+- script: |
+    flutter --version
+    flutter pub outdated
+    flutter pub upgrade --major-versions
+    flutter pub get 
+  displayName: 'Run Flutter updates'
 
-  - stage: RunDependencyCheck
-    displayName: 'Run Dependency Check'
-    dependsOn: [SonarQubeAnalysis]
-    jobs:
-      - job: DependencyCheckFrontendJob
-        displayName: 'Dependency Check for Frontend'
-        steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
-                /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/6/s' --format 'HTML' --out '/home/azureuser/myagent/_work/6/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
-            displayName: 'Run Dependency Check'
-          
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/dependency-check'
-              artifactName: 'DependencyCheckReport'
-              publishLocation: 'Container'
-            displayName: 'Publish Dependency Check Report'
+# Run Tests First
+- script: |
+    flutter --version
+    flutter pub get
+    flutter pub run build_runner build
+#    flutter test test/widget_test.dart
+  displayName: 'Integration Test'
+
+#- script: |
+#    flutter test test/register_controller_test.dart
+#    flutter test test/register_page_test.dart
+#  displayName: 'JUnit Test'
+
+#- script: |
+#    flutter test --machine > test-results.json
+#    cat test-results.json | tojunit > test-results.xml || true
+#  displayName: 'Create JUnit Test Results'
+
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFiles: './test-results.xml'
+#    testResultsFormat: 'JUnit'
+
+# Build APK after tests pass
+- script: |
+    flutter clean
+    flutter pub get
+    flutter build apk --release --verbose
+  displayName: 'Build APK Front'
+
+- script: |
+    pwd
+    ls -la
+  displayName: 'Show Current Directory and Contents'
+
+# Run Backend Tests
+- script: |
+    cd backend
+    npm install
+  displayName: 'Run Backend Tests'
   
-      - job: DependencyCheckBackendJob
-        displayName: 'Dependency Check for Backend'
-        steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
-                /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan 'backend/' --format 'HTML' --out '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check' --data /home/azureuser/dependency-check/data --noupdate --disableAssembly --disableYarnAudit
-            displayName: 'Run Dependency Check for Backend'
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check'
-              artifactName: 'BackendDependencyCheckReport1'
-              publishLocation: 'Container'
-            displayName: 'Publish Backend Dependency Check Report'
+# SonarQube Analysis (Frontend)
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'seviceconnsonarjdid'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Frontend_final'
+    cliProjectName: 'Frontend_final'
+    cliSources: '.'  # Scans the frontend files in the root directory
+    extraProperties: |
+     sonar.java.binaries=.
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-  - stage: BuildAndPushDockerImages
-    displayName: 'Build and Push Docker Images'
-    dependsOn: [RunDependencyCheck]
-    jobs:
-      - job: DockerBuildJob
-        steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                docker ps -q --filter "publish=8083" | grep -q . && docker stop $(docker ps -q --filter "publish=8083") && docker rm $(docker ps -aq --filter "publish=8083") || echo "No container running on port 8083"
-                docker ps -q --filter "publish=8080" | grep -q . && docker stop $(docker ps -q --filter "publish=8080") && docker rm $(docker ps -aq --filter "publish=8080") || echo "No container running on port 8080"
-            displayName: 'Stop and Remove Existing Containers'
+- task: SonarQubePublish@6
+  inputs:
+    pollingTimeoutSec: '600'
 
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'docker'
-              repository: 'mustapha69/frontend_final'
-              command: 'build'
-              Dockerfile: 'Docker/Dockerfile'
-              buildContext: '/home/azureuser/myagent/_work/6/s'
-              tags: '$(Build.BuildId)'
-            displayName: 'Build Frontend Docker Image'
+# SonarQube Analysis (Backend)
 
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'docker'
-              repository: 'mustapha69/backend_final'
-              command: 'build'
-              Dockerfile: 'backend/Docker/Dockerfile'
-              buildContext: '/home/azureuser/myagent/_work/6/s'
-              tags: '$(Build.BuildId)'
-            displayName: 'Build Backend Docker Image'
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'seviceconnsonarjdid'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Backend_final'
+    cliProjectName: 'Backend_final'
+    cliSources: 'backend/'  # Scans the backend code under the 'backend' directory
+    extraProperties: |
+      sonar.nodejs.binaries=backend
 
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'docker'
-              repository: 'mustapha69/frontend_final'
-              command: 'push'
-              tags: '$(Build.BuildId)'
-            displayName: 'Push Frontend Docker Image'
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'docker'
-              repository: 'mustapha69/backend_final'
-              command: 'push'
-              tags: '$(Build.BuildId)'
-            displayName: 'Push Backend Docker Image'
+- task: SonarQubePublish@6
+  inputs:
+      pollingTimeoutSec: '600'
 
-  - stage: TrivyScanAndRun
-    displayName: 'Run Trivy Scans and Docker Compose'
-    dependsOn: BuildAndPushDockerImages
-    jobs:
-      - job: TrivyScanJob
-        steps:
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.html
-            displayName: 'Run Trivy Scan on Frontend'
+# Run Dependency Check (Frontend)
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/6/s' --format 'HTML' --out '/home/azureuser/myagent/_work/6/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
+  displayName: 'Run Dependency Check'
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: 'trivy-frontend-report.html'
-              artifactName: 'TrivyFrontendReport'
-              publishLocation: 'Container'
-            displayName: 'Publish Trivy Frontend Report'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/dependency-check'
+    artifactName: 'DependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Dependency Check Report'
 
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy
+# Run Dependency Check (Backend)
+- task: Bash@3
+  inputs:
+      targetType: 'inline'
+      script: |
+        export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+        /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" \
+        --scan 'backend/' \
+        --format 'HTML' \
+        --out '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check' \
+        --data /home/azureuser/dependency-check/data \
+        --noupdate \
+        --disableAssembly \
+        --disableYarnAudit
+  displayName: 'Run Dependency Check for Backend'
+
+# Publish Backend Dependency Check Results
+- task: PublishBuildArtifacts@1
+  inputs:
+      PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check'
+      artifactName: 'BackendDependencyCheckReport1'
+      publishLocation: 'Container'
+  displayName: 'Publish Backend Dependency Check Report'
+
+
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker ps -q --filter "publish=8083" | grep -q . && docker stop $(docker ps -q --filter "publish=8083") && docker rm $(docker ps -aq --filter "publish=8083") || echo "No container running on port 8083"
+      docker ps -q --filter "publish=8080" | grep -q . && docker stop $(docker ps -q --filter "publish=8080") && docker rm $(docker ps -aq --filter "publish=8080") || echo "No container running on port 8080"
+  displayName: 'Stop and Remove Existing Container on Port 8080 & 8083'
+
+# Build Docker Images for frontend
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/frontend_final'
+    command: 'build'
+    Dockerfile: 'Docker/Dockerfile'
+    buildContext: '/home/azureuser/myagent/_work/6/s'
+    tags: '$(Build.BuildId)'
+  displayName: 'Build Frontend Docker Image'
+
+# Build Docker Images for backend
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/backend_final'
+    command: 'build'
+    Dockerfile: 'backend/Docker/Dockerfile'
+    buildContext: '/home/azureuser/myagent/_work/6/s'
+    tags: '$(Build.BuildId)'
+  displayName: 'Build Backend Docker Image'
+
+# Trivy scan for the frontend Docker image
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.html
+  displayName: 'Run Trivy Scan on Frontend'
+
+# Trivy scan for the backend Docker image
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.html
+
+  displayName: 'Run Trivy Scan on Backend'
+
+# Publish Trivy Reports
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'trivy-frontend-report.html'
+    artifactName: 'TrivyFrontendReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Trivy Frontend Report'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'trivy-backend-report.html'
+    artifactName: 'TrivyBackendReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Trivy Backend Report'
+
+# Push Docker Images for frontend after Trivy Scan passes
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/frontend_final'
+    command: 'push'
+    tags: '$(Build.BuildId)'
+  displayName: 'Push Frontend Docker Image'
+
+# Push Docker Images for backend after Trivy Scan passes
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/backend_final'
+    command: 'push'
+    tags: '$(Build.BuildId)'
+  displayName: 'Push Backend Docker Image'
+
+# Use Docker Compose to run both frontend and backend containers
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      export BUILD_ID=$(Build.BuildId)
+      docker-compose -f docker-compose.yml up -d
+  displayName: 'Run Docker Compose'
+
+# Verify Containers are Running
+- script: |
+    docker ps -a
+  displayName: 'Verify Containers are Running'
