@@ -2,9 +2,9 @@ trigger:
   - none
 
 pool:
-  name: bara
+  name: DifferentPool
   demands:
-    - agent.name -equals BestVM
+    - agent.name -equals agento
 
 steps:
 - script: |
