@@ -70,7 +70,7 @@ steps:
 # SonarQube Analysis (Frontend)
 - task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'seviceconnsonarjdid'
+    SonarQube: 'connecttosonar'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
@@ -90,7 +90,7 @@ steps:
 
 - task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'seviceconnsonarjdid'
+    SonarQube: 'connecttosonar'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Backend_final'
