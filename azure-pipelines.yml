@@ -2,9 +2,9 @@ trigger:
   - none
 
 pool:
-  name: DifferentPool
+  name: selfpool
   demands:
-    - agent.name -equals agento
+    - agent.name -equals cagent
 
 steps:
 - script: |
