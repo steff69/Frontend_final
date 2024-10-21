@@ -114,12 +114,12 @@ steps:
     targetType: 'inline'
     script: |
       export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
-      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/6/s' --format 'HTML' --out '/home/azureuser/myagent/_work/6/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
   displayName: 'Run Dependency Check'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/dependency-check'
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
     artifactName: 'DependencyCheckReport'
     publishLocation: 'Container'
   displayName: 'Publish Dependency Check Report'
@@ -133,7 +133,7 @@ steps:
         /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" \
         --scan 'backend/' \
         --format 'HTML' \
-        --out '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check' \
+        --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' \
         --data /home/azureuser/dependency-check/data \
         --noupdate \
         --disableAssembly \
@@ -143,7 +143,7 @@ steps:
 # Publish Backend Dependency Check Results
 - task: PublishBuildArtifacts@1
   inputs:
-      PathtoPublish: '/home/azureuser/myagent/_work/6/TestResults/backend-dependency-check'
+      PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
       artifactName: 'BackendDependencyCheckReport1'
       publishLocation: 'Container'
   displayName: 'Publish Backend Dependency Check Report'
@@ -165,7 +165,7 @@ steps:
     repository: 'mustapha69/frontend_final'
     command: 'build'
     Dockerfile: 'Docker/Dockerfile'
-    buildContext: '/home/azureuser/myagent/_work/6/s'
+    buildContext: '/home/azureuser/myagent/_work/1/s'
     tags: '$(Build.BuildId)'
   displayName: 'Build Frontend Docker Image'
 
@@ -176,7 +176,7 @@ steps:
     repository: 'mustapha69/backend_final'
     command: 'build'
     Dockerfile: 'backend/Docker/Dockerfile'
-    buildContext: '/home/azureuser/myagent/_work/6/s'
+    buildContext: '/home/azureuser/myagent/_work/1/s'
     tags: '$(Build.BuildId)'
   displayName: 'Build Backend Docker Image'
 
