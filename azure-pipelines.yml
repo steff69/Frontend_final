@@ -52,8 +52,7 @@ steps:
 - script: |
     cd backend
     npm install
-    npm fund
-    npm audit fix
+    npm test
   displayName: 'Run Backend Tests'
 
 # Build APK after tests pass
