@@ -48,6 +48,14 @@ steps:
 #    testResultsFiles: './test-results.xml'
 #    testResultsFormat: 'JUnit'
 
+# Run Backend Tests
+- script: |
+    cd backend
+    npm install
+    npm fund
+    npm audit fix --force
+  displayName: 'Run Backend Tests'
+
 # Build APK after tests pass
 - script: |
     flutter clean
@@ -60,12 +68,6 @@ steps:
     ls -la
   displayName: 'Show Current Directory and Contents'
 
-# Run Backend Tests
-- script: |
-    cd backend
-    npm install
-  displayName: 'Run Backend Tests'
-  
 
 # SonarQube Analysis (Frontend)
 - task: SonarQubePrepare@6
