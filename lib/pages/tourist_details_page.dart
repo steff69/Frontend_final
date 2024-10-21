@@ -91,7 +91,7 @@ class TouristDetailsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            "Portic Team 8km",
+                            "",
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
@@ -103,7 +103,7 @@ class TouristDetailsPage extends StatelessWidget {
                           onPressed: () {},
                           iconSize: 20,
                           icon:
-                              const Icon(Ionicons.chatbubble_ellipses_outline),
+                              const Icon(Ionicons.chatbubble_ellipses_outline), 
                         ),
                       ),
                       Column(
