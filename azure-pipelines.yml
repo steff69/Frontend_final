@@ -71,7 +71,7 @@ steps:
 # SonarQube Analysis (Frontend)
 - task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'connecttosonar'
+    SonarQube: 'trahconnection'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
@@ -91,7 +91,7 @@ steps:
 
 - task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'connecttosonar'
+    SonarQube: 'trahconnection'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Backend_final'
