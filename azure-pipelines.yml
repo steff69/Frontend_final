@@ -72,10 +72,11 @@ steps:
 - task: dependency-check-build-task@6
   inputs:
     projectName: 'Frontend_final'
-    scanPath: './'
-    format: 'HTML'
-    uploadReports: true
-    nvdApiKey: '40bb3071-ed9a-424d-a4b6-487b0c909a94'
+    scanPath: '/home/azureuser/myagent/_work/1/s/'          # Path to your project to scan
+    format: 'HTML'                                       # Desired report format
+    uploadReports: true                                   # Set to true if you want to upload reports
+    dataDirectory: '/opt/dependency-check/data'          # Path to the local data directory
+    failBuildOnCVSS: 5     
 
 
 
