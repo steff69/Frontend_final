@@ -69,13 +69,13 @@ steps:
 
 
 
-
 - task: dependency-check-build-task@6
   inputs:
     projectName: 'Frontend_final'
     scanPath: './'
     format: 'HTML'
     uploadReports: true
+    nvdApiKey: '40bb3071-ed9a-424d-a4b6-487b0c909a94'
 
 
 
