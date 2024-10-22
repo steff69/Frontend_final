@@ -78,7 +78,6 @@ steps:
       export NVD_API_KEY=40bb3071-ed9a-424d-a4b6-487b0c909a94
       /opt/dependency-check/bin/dependency-check.sh --scan /home/azureuser/myagent/_work/1/s/ --out /home/azureuser/myagent/_work/1/TestResults/dependency-check --format HTML --data /opt/dependency-check/data
 
-
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
