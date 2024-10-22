@@ -69,14 +69,21 @@ steps:
 
 
 
-- task: dependency-check-build-task@6
+# Run Dependency Check (Frontend)
+- task: Bash@3
   inputs:
-    projectName: 'Frontend_final'
-    scanPath: '/home/azureuser/myagent/_work/1/s/'          # Path to your project to scan
-    format: 'HTML'                                       # Desired report format
-    uploadReports: true                                   # Set to true if you want to upload reports
-    dataDirectory: '/opt/dependency-check/data'          # Path to the local data directory
-    failBuildOnCVSS: 5     
+    targetType: 'inline'
+    script: |
+      export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
+  displayName: 'Run Dependency Check'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
+    artifactName: 'DependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Dependency Check Report'
 
 
 
