@@ -71,12 +71,13 @@ steps:
 
 # Run Dependency Check (Frontend)
 - task: Bash@3
+  displayName: 'Run Dependency Check'
   inputs:
     targetType: 'inline'
     script: |
-      export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
-      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
-  displayName: 'Run Dependency Check'
+      export NVD_API_KEY=40bb3071-ed9a-424d-a4b6-487b0c909a94
+      /opt/dependency-check/bin/dependency-check.sh --scan /home/azureuser/myagent/_work/1/s/ --out /home/azureuser/myagent/_work/1/TestResults/dependency-check --format HTML --data /opt/dependency-check/data
+
 
 - task: PublishBuildArtifacts@1
   inputs:
