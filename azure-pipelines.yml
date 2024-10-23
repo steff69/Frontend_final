@@ -10,20 +10,19 @@ steps:
 - script: |
     export BUILD_ID=$(Build.BuildId)
     echo "BUILD_ID is set to: $BUILD_ID"
-  displayName: 'Export Build ID'
   
 - script: |
     ls -la $(Build.SourcesDirectory)
     git clone https://github.com/steff69/Backend_final.git backend
   displayName: 'Clone Backend Repository'
 
-# Run Flutter updates
+# Flutter updates
 - script: |
     flutter --version
     flutter pub outdated
     flutter pub upgrade --major-versions
     flutter pub get 
-  displayName: 'Run Flutter updates'
+  displayName: 'Flutter updates (upgrade --major-versions)'
 
 # Run Tests First
 - script: |
@@ -46,7 +45,7 @@ steps:
 #- task: PublishTestResults@2
 #  inputs:
 #    testResultsFiles: './test-results.xml'
-#    testResultsFormat: 'JUnit'
+#    testResultsFormat: 'PublishTestResults JUnit'
 
 # Run Backend Tests
 - script: |
@@ -60,13 +59,47 @@ steps:
     flutter clean
     flutter pub get
     flutter build apk --release --verbose
-  displayName: 'Build APK Front'
+  displayName: 'Build APK'
 
-- script: |
-    pwd
-    ls -la
-  displayName: 'Show Current Directory and Contents'
+# SonarQube Analysis (Frontend)
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Frontend_final'
+    cliProjectName: 'Frontend_final'
+    cliSources: '.'  # Scans the frontend files in the root directory
+    extraProperties: |
+     sonar.java.binaries=.
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
+- task: SonarQubePublish@6
+  inputs:
+    pollingTimeoutSec: '600'
+
+# SonarQube Analysis (Backend)
+
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Backend_final'
+    cliProjectName: 'Backend_final'
+    cliSources: 'backend/'  # Scans the backend code under the 'backend' directory
+    extraProperties: |
+      sonar.nodejs.binaries=backend
+
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@6
+  inputs:
+      pollingTimeoutSec: '600'
 
 
 # Run Dependency Check (Frontend)
@@ -75,6 +108,7 @@ steps:
     targetType: 'inline'
     script: |
        /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
+  displayName: 'Run Frontend Dependency Check'
   
 - task: PublishBuildArtifacts@1
   inputs:
@@ -90,7 +124,8 @@ steps:
     targetType: 'inline'
     script: |
        /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
-  
+  displayName: 'Run Backend Dependency Check'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
@@ -105,7 +140,7 @@ steps:
     script: |
       docker ps -q --filter "publish=8083" | grep -q . && docker stop $(docker ps -q --filter "publish=8083") && docker rm $(docker ps -aq --filter "publish=8083") || echo "No container running on port 8083"
       docker ps -q --filter "publish=8080" | grep -q . && docker stop $(docker ps -q --filter "publish=8080") && docker rm $(docker ps -aq --filter "publish=8080") || echo "No container running on port 8080"
-  displayName: 'Stop and Remove Existing Container on Port 8080 & 8083'
+
 
 # Build Docker Images for frontend
 - task: Docker@2
@@ -137,15 +172,6 @@ steps:
       trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.html
   displayName: 'Run Trivy Scan on Frontend'
 
-# Trivy scan for the backend Docker image
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.html
-
-  displayName: 'Run Trivy Scan on Backend'
-
 # Publish Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
@@ -154,6 +180,16 @@ steps:
     publishLocation: 'Container'
   displayName: 'Publish Trivy Frontend Report'
 
+# Trivy scan for the backend Docker image
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.html
+  displayName: 'Run Trivy Scan on Backend'
+
+
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'trivy-backend-report.html'
@@ -161,14 +197,14 @@ steps:
     publishLocation: 'Container'
   displayName: 'Publish Trivy Backend Report'
 
-# Push Docker Images for frontend after Trivy Scan passes
+# Push Docker Images for frontend 
 - task: Docker@2
   inputs:
     containerRegistry: 'docker'
     repository: 'mustapha69/frontend_final'
     command: 'push'
     tags: '$(Build.BuildId)'
-  displayName: 'Push Frontend Docker Image'
+  displayName: 'Push Frontend Docker To Registry'
 
 # Push Docker Images for backend after Trivy Scan passes
 - task: Docker@2
@@ -177,7 +213,7 @@ steps:
     repository: 'mustapha69/backend_final'
     command: 'push'
     tags: '$(Build.BuildId)'
-  displayName: 'Push Backend Docker Image'
+  displayName: 'Push Backend Docker Image To Registry'
 
 # Use Docker Compose to run both frontend and backend containers
 - task: Bash@3
