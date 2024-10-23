@@ -74,25 +74,29 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/dependency-check' --data /opt/dependency-check/data --noupdate
-
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
-    artifactName: 'DependencyCheckReport'
-    publishLocation: 'Container'
-  displayName: 'Publish Dependency Check Report'
+       /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
   
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
     artifactName: 'DependencyCheckReport'
     publishLocation: 'Container'
-  displayName: 'Publish Dependency Check Report'
+  displayName: 'Frontend Publish Dependency Check Report'
 
 
-
+# Run Dependency Check (Backend)
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
+    artifactName: 'DependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Backend Publish Dependency Check Report'
 
 
 - task: Bash@3
