@@ -79,7 +79,8 @@ steps:
         --out /home/azureuser/myagent/_work/1/TestResults/dependency-check \
         --format HTML \
         --data /opt/dependency-check/data \
-        --disableUpdates
+        --noupdate
+
 
 
 - task: PublishBuildArtifacts@1
