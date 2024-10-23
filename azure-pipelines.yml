@@ -74,8 +74,17 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      /opt/dependency-check/bin/dependency-check.sh --scan /home/azureuser/myagent/_work/1/s/ --out /home/azureuser/myagent/_work/1/TestResults/dependency-check --format HTML --data /opt/dependency-check/data --disableUpdates
+      export NVD_API_KEY='47eef216-e3ac-4bc5-ac23-d03157dcd439'
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/dependency-check' --data /home/azureuser/dependency-check/data --noupdate
+  displayName: 'Run Dependency Check'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
+    artifactName: 'DependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Dependency Check Report'
+  
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/dependency-check'
