@@ -14,7 +14,7 @@ class SerchController extends GetxController {
   RxString str = 'a'.obs;
 
   void getSearchData({required String searchdata}) async {
-    //jebet token men constante
+
     str.value = 'a';
     dataSearch.clear();
 

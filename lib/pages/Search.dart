@@ -117,7 +117,7 @@ class SearchPlaces extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text("Portic Team"),
+                            const Text(""),
                             const SizedBox(height: 10),
                             // DISTANCE WIDGET
                             const Distance(),
