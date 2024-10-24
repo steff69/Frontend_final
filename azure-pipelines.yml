@@ -66,12 +66,11 @@ steps:
   inputs:
     SonarQube: 'trahconnection'
     scannerMode: 'CLI'
-    configMode: 'manual'
+    configMode: 'file'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: '.'  # Scans the frontend files in the root directory
-    extraProperties: |
-     sonar.java.binaries=.
+    cliSources: '.'  # Ensure this points to the root where your sonar-project.properties is located
+
 - task: SonarQubeAnalyze@6
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
