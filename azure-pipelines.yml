@@ -61,15 +61,30 @@ steps:
     flutter build apk --release --verbose
   displayName: 'Build APK'
 
+# Print current working directory and its contents
+- task: Bash@3
+  displayName: 'Show Current Directory'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "Current Directory:"
+      pwd
+      echo "Contents:"
+      ls -la
+
+
 # SonarQube Analysis (Frontend)
 - task: SonarQubePrepare@6
   inputs:
     SonarQube: 'trahconnection'
     scannerMode: 'CLI'
-    configMode: 'file'
+    configMode: 'manual'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: '.'  # Ensure this points to the root where your sonar-project.properties is located
+    cliSources: '.'  # Scans the frontend files in the current directory
+    extraProperties: |
+      sonar.java.binaries=.
+      sonar.sources=.
 
 - task: SonarQubeAnalyze@6
   inputs:
