@@ -82,7 +82,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: 'lib,test'  # Specify the lib directory to scan
+    cliSources: 'lib'  # Specify the lib directory to scan
     extraProperties: |
       sonar.projectVersion=1.0
       sonar.sourceEncoding=UTF-8
