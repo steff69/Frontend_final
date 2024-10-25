@@ -29,7 +29,7 @@ steps:
     flutter --version
     flutter pub get
     flutter pub run build_runner build
-#    flutter test test/widget_test.dart
+    flutter test test/widget_test.dart
   displayName: 'Integration Test'
 
 #- script: |
@@ -101,11 +101,11 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'Backend_final'
     cliProjectName: 'Backend_final'
-    cliSources: 'backend'  # Path to the backend directory to be scanned
+    cliSources: 'backend/'  # Path to the backend directory to be scanned
     extraProperties: |
       sonar.projectVersion=1.0
       sonar.sourceEncoding=UTF-8
-      sonar.language=js  # Set to JavaScript for Node.js
+      sonar.language=js
       sonar.nodejs.binaries=/usr/local/bin/node
 
 
