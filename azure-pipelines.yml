@@ -107,7 +107,6 @@ steps:
       sonar.sourceEncoding=UTF-8
       sonar.language=js  # Set to JavaScript for Node.js
       sonar.nodejs.binaries=backend  # Specify the Node.js binaries path if needed
-      sonar.tests=test  # Specify the test directory if you have tests
 
 
 
