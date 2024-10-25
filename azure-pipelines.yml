@@ -74,32 +74,33 @@ steps:
 
 
 # SonarQube Analysis (Frontend)
-- task: SonarQubePrepare@6
+- task: SonarQubePrepare@7
   displayName: 'Prepare SonarQube Analysis'
   inputs:
-    SonarQube: 'trahconnection'  # Replace with your SonarQube service connection name
+    SonarQube: 'trahconnection'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: 'lib/*'
+    cliSources: 'lib,test'  # Directly specify directories
     extraProperties: |
       sonar.projectVersion=1.0
       sonar.sourceEncoding=UTF-8
       sonar.language=dart
 
 
-- task: SonarQubeAnalyze@6
+
+- task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@6
+- task: SonarQubePublish@7
   inputs:
     pollingTimeoutSec: '600'
 
 # SonarQube Analysis (Backend)
 
-- task: SonarQubePrepare@6
+- task: SonarQubePrepare@7
   inputs:
     SonarQube: 'trahconnection'
     scannerMode: 'CLI'
@@ -110,11 +111,11 @@ steps:
     extraProperties: |
       sonar.nodejs.binaries=backend
 
-- task: SonarQubeAnalyze@6
+- task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@6
+- task: SonarQubePublish@7
   inputs:
       pollingTimeoutSec: '600'
 
