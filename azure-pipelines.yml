@@ -72,20 +72,16 @@ steps:
       echo "Contents:"
       ls -la
 
-
 - task: SonarQubePrepare@7
-  displayName: 'Prepare SonarQube Analysis'
   inputs:
-    SonarQube: 'trahconnection'  # Replace with your SonarQube service connection name
-    scannerMode: 'CLI'
+    SonarQube: 'trahconnection'
+    scannerMode: 'cli'
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: 'lib'  # Scan all files in lib and test directories recursively
-    extraProperties: |
-      sonar.projectVersion=1.0
-      sonar.sourceEncoding=UTF-8
-      sonar.language=dart
+    cliSources: '.'
+    extraProperties: 
+
 
 
 
