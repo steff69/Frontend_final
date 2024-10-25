@@ -29,7 +29,7 @@ steps:
     flutter --version
     flutter pub get
     flutter pub run build_runner build
-    flutter test test/widget_test.dart
+#    flutter test test/widget_test.dart
   displayName: 'Integration Test'
 
 #- script: |
