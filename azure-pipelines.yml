@@ -82,7 +82,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'Frontend_final'
     cliProjectName: 'Frontend_final'
-    cliSources: 'lib/controller/*'  # Scans the lib directory and all its subdirectories
+    cliSources: 'lib/*'
     extraProperties: |
       sonar.projectVersion=1.0
       sonar.sourceEncoding=UTF-8
