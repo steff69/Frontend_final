@@ -96,17 +96,17 @@ steps:
 
 - task: SonarQubePrepare@7
   inputs:
-    SonarQube: 'trahconnection'  # Replace with your SonarQube service connection name
+    SonarQube: 'trahconnection'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Backend_final'
     cliProjectName: 'Backend_final'
-    cliSources: 'backend/'  # Path to the backend directory to be scanned
+    cliSources: 'backend'  # Scan all files in the backend directory
     extraProperties: |
+      sonar.nodejs.binaries=/usr/bin/node
       sonar.projectVersion=1.0
       sonar.sourceEncoding=UTF-8
-      sonar.language=js
-      sonar.nodejs.binaries=/usr/local/bin/node
+
 
 
 - task: SonarQubeAnalyze@7
