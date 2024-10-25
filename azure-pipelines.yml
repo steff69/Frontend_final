@@ -81,7 +81,6 @@ steps:
     cliProjectName: 'Frontend_final'
     cliSources: '.'
     extraProperties: 
-        sonar.inclusions=**/*.dart
 
 
 
