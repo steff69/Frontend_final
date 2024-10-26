@@ -105,14 +105,12 @@ steps:
     tags: '$(Build.BuildId)'
   displayName: 'Build Backend Docker Image'
 
-
+# Trivy scan for the frontend Docker image
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL \
-      mustapha69/frontend_final:$(Build.BuildId) \
-      --format table --output trivy-frontend-report.txt
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-frontend-report.txt
   displayName: 'Run Trivy Scan on Frontend'
 
 
