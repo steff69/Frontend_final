@@ -72,82 +72,7 @@ steps:
       echo "Contents:"
       ls -la
 
-- task: SonarQubePrepare@7
-  inputs:
-    SonarQube: 'trahconnection'
-    scannerMode: 'cli'
-    configMode: 'manual'
-    cliProjectKey: 'Frontend_final'
-    cliProjectName: 'Frontend_final'
-    cliSources: '.'
-    extraProperties: 
 
-
-
-- task: SonarQubeAnalyze@7
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
-
-- task: SonarQubePublish@7
-  inputs:
-    pollingTimeoutSec: '600'
-
-# SonarQube Analysis (Backend)
-
-- task: SonarQubePrepare@7
-  inputs:
-    SonarQube: 'trahconnection'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'Backend_final'
-    cliProjectName: 'Backend_final'
-    cliSources: 'backend'  # Scan all files in the backend directory
-    extraProperties: |
-      sonar.nodejs.binaries=/usr/bin/node
-      sonar.projectVersion=1.0
-      sonar.sourceEncoding=UTF-8
-
-
-
-- task: SonarQubeAnalyze@7
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
-
-- task: SonarQubePublish@7
-  inputs:
-      pollingTimeoutSec: '600'
-
-
-# Run Dependency Check (Frontend)
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
-  displayName: 'Run Frontend Dependency Check'
-  
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
-    artifactName: 'DependencyCheckReport'
-    publishLocation: 'Container'
-  displayName: 'Frontend Publish Dependency Check Report'
-
-
-# Run Dependency Check (Backend)
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
-  displayName: 'Run Backend Dependency Check'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
-    artifactName: 'DependencyCheckReport'
-    publishLocation: 'Container'
-  displayName: 'Backend Publish Dependency Check Report'
 
 
 - task: Bash@3
@@ -180,13 +105,16 @@ steps:
     tags: '$(Build.BuildId)'
   displayName: 'Build Backend Docker Image'
 
-# Trivy scan for the frontend Docker image
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format json --output trivy-frontend-report.html
+      trivy image --exit-code 0 --severity HIGH,CRITICAL \
+      mustapha69/frontend_final:$(Build.BuildId) \
+      --format table --output trivy-frontend-report.txt
   displayName: 'Run Trivy Scan on Frontend'
+
 
 # Publish Trivy Reports
 - task: PublishBuildArtifacts@1
