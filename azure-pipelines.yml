@@ -105,39 +105,37 @@ steps:
     tags: '$(Build.BuildId)'
   displayName: 'Build Backend Docker Image'
 
+# Create a directory to hold both reports
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      mkdir -p trivy-reports
+  displayName: 'Create Reports Directory'
+
 # Trivy scan for the frontend Docker image
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-frontend-report.txt
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-frontend-report.txt
   displayName: 'Run Trivy Scan on Frontend'
-
-
-# Publish Trivy Reports
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'trivy-frontend-report.txt'
-    artifactName: 'TrivyFrontendReport'
-    publishLocation: 'Container'
-  displayName: 'Publish Trivy Frontend Report'
 
 # Trivy scan for the backend Docker image
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-backend-report.html
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-reports/trivy-backend-report.html
   displayName: 'Run Trivy Scan on Backend'
 
-
-
+# Publish both Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-backend-report.html'
-    artifactName: 'TrivyBackendReport'
+    PathtoPublish: 'trivy-reports'  # Publish the entire directory
+    artifactName: 'TrivyReports'    # Name of the artifact
     publishLocation: 'Container'
-  displayName: 'Publish Trivy Backend Report'
+  displayName: 'Publish Trivy Reports'
 
 # Push Docker Images for frontend 
 - task: Docker@2
