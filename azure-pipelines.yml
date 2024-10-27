@@ -126,14 +126,14 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format json --output trivy-reports/trivy-backend-report.html
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-backend-report.txt
   displayName: 'Run Trivy Scan on Backend'
 
 # Publish both Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'trivy-reports'  # Publish the entire directory
-    artifactName: 'TrivyReports'    # Name of the artifact
+    artifactName: 'TrivyReports(Front and Fack)'    # Name of the artifact
     publishLocation: 'Container'
   displayName: 'Publish Trivy Reports'
 
