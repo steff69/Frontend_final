@@ -32,20 +32,20 @@ steps:
 #    flutter test test/widget_test.dart
   displayName: 'Integration Test'
 
-#- script: |
-#    flutter test test/register_controller_test.dart
-#    flutter test test/register_page_test.dart
-#  displayName: 'JUnit Test'
+- script: |
+    flutter test test/register_controller_test.dart
+    flutter test test/register_page_test.dart
+  displayName: 'JUnit Test'
 
-#- script: |
-#    flutter test --machine > test-results.json
-#    cat test-results.json | tojunit > test-results.xml || true
-#  displayName: 'Create JUnit Test Results'
+- script: |
+    flutter test --machine > test-results.json
+    cat test-results.json | tojunit > test-results.xml || true
+  displayName: 'Create JUnit Test Results'
 
-#- task: PublishTestResults@2
-#  inputs:
-#    testResultsFiles: './test-results.xml'
-#    testResultsFormat: 'PublishTestResults JUnit'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: './test-results.xml'
+    testResultsFormat: 'PublishTestResults JUnit'
 
 # Run Backend Tests
 - script: |
