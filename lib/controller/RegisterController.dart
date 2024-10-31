@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,77 +26,57 @@ class RegisterController extends GetxController {
 
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-        final message = responseBody["message"] ?? "Registration completed";
+        final message = responseBody?["message"] ?? "Registration completed";
 
-        showSnackbar(
-          title: 'Your account has been successfully created',
-          message: message,
+        Get.snackbar(
+          'Your account has been successfully created',
+          message,
           backgroundColor: kPrimary,
-          icon: Ionicons.fast_food,
+          colorText: kLightwhite,
+          icon: Icon(Ionicons.fast_food),
         );
 
-        // Wait for a few seconds before navigating away
+        // Wait before navigating
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
 
-        // Navigate to the LoginPage
-        Get.offAll(() => LoginPage(), transition: Transition.fade, duration: Duration(milliseconds: 900));
+        Get.offAll(
+          () => LoginPage(),
+          transition: Transition.fade,
+          duration: Duration(milliseconds: 900),
+        );
       } else if (response.statusCode == 400) {
         final responseBody = jsonDecode(response.body);
-        final message = responseBody["message"] ?? "An error occurred";
+        final message = responseBody?["message"] ?? "An error occurred";
 
-        showSnackbar(
-          title: 'You have something wrong',
-          message: message,
+        Get.snackbar(
+          'You have something wrong',
+          message,
           backgroundColor: kRed,
-          icon: Ionicons.fast_food_outline,
-          isError: true,
+          colorText: kDark,
+          icon: Icon(Ionicons.fast_food_outline),
         );
 
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
       } else {
-        handleUnexpectedError(response.statusCode);
+        Get.snackbar(
+          'Unexpected Error',
+          'Please try again later. Error code: ${response.statusCode}',
+          backgroundColor: kRed,
+          colorText: kLightwhite,
+        );
+        loading.value = false;
       }
     } catch (e) {
-      handleException(e);
-    } finally {
+      print('Error during registration: $e');
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred. Please check your connection and try again.',
+        backgroundColor: kRed,
+        colorText: kLightwhite,
+      );
       loading.value = false;
     }
-  }
-
-  void showSnackbar({
-    required String title,
-    required String message,
-    required Color backgroundColor,
-    required IconData icon,
-    bool isError = false,
-  }) {
-    Get.snackbar(
-      title,
-      message,
-      backgroundColor: backgroundColor,
-      colorText: isError ? kDark : kLightwhite,
-      icon: Icon(icon),
-    );
-  }
-
-  void handleUnexpectedError(int statusCode) {
-    Get.snackbar(
-      'Unexpected Error',
-      'Please try again later. Error code: $statusCode',
-      backgroundColor: kRed,
-      colorText: kLightwhite,
-    );
-  }
-
-  void handleException(Object exception) {
-    print('Error during registration: $exception');
-    Get.snackbar(
-      'Error',
-      'An unexpected error occurred. Please check your connection and try again.',
-      backgroundColor: kRed,
-      colorText: kLightwhite,
-    );
   }
 }
