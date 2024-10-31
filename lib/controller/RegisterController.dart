@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,12 +20,13 @@ class RegisterController extends GetxController {
   Future<void> registerFunction(String data) async {
     loading.value = true;
     final url = Uri.parse('http://51.120.4.43:8083/api/user/create');
-    Map<String, String> headers = {'Content-Type': 'application/json'};
+    Map<String, String> headers = {'content-Type': 'application/json'};
 
     try {
       final response = await client.post(url, headers: headers, body: data);
 
       if (response.statusCode == 200) {
+        // Parse the response body safely
         final responseBody = jsonDecode(response.body);
         final message = responseBody?["message"] ?? "Registration completed";
 
@@ -36,7 +38,7 @@ class RegisterController extends GetxController {
           icon: Icon(Ionicons.fast_food),
         );
 
-        // Wait before navigating
+        // Use Future.delayed instead of Timer for better async handling
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
 
@@ -52,14 +54,16 @@ class RegisterController extends GetxController {
         Get.snackbar(
           'You have something wrong',
           message,
-          backgroundColor: kRed,
+          messageText: Text(message, style: TextStyle(fontSize: 18, color: kLightwhite)),
           colorText: kDark,
+          backgroundColor: kRed,
           icon: Icon(Ionicons.fast_food_outline),
         );
 
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
       } else {
+        // Handle unexpected status codes
         Get.snackbar(
           'Unexpected Error',
           'Please try again later. Error code: ${response.statusCode}',
@@ -69,6 +73,7 @@ class RegisterController extends GetxController {
         loading.value = false;
       }
     } catch (e) {
+      // Enhanced error handling
       print('Error during registration: $e');
       Get.snackbar(
         'Error',
