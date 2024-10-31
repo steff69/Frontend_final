@@ -26,14 +26,14 @@ void main() {
   });
 
   testWidgets('Register Page UI Test', (WidgetTester tester) async {
-    // Set up the mocked HTTP response
+    // Mock the HTTP response with precise matchers
     when(mockClient.post(
-      any,
-      headers: anyNamed('headers'),
+      Uri.parse('http://51.120.4.43:8083/api/user/create'),
+      headers: {'content-Type': 'application/json'},
       body: anyNamed('body'),
     )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
 
-    // Initialize ScreenUtil and build the widget tree
+    // Build the widget tree with ScreenUtilInit
     await tester.pumpWidget(
       ScreenUtilInit(
         designSize: Size(375, 812),
@@ -45,10 +45,10 @@ void main() {
       ),
     );
 
-    // Verify that text fields exist
+    // Verify that the text fields for input are present
     expect(find.byType(TextField), findsNWidgets(3));
 
-    // Enter email, name, and password
+    // Enter test data into the fields
     await tester.enterText(find.byType(TextField).first, 'test@example.com');
     await tester.pump();
     await tester.enterText(find.byType(TextField).at(1), 'TestUser');
@@ -56,14 +56,14 @@ void main() {
     await tester.enterText(find.byType(TextField).at(2), 'password123');
     await tester.pump();
 
-    // Tap on the "SIGN UP" button and wait for UI update
+    // Tap on the "SIGN UP" button
     await tester.tap(find.text('SIGN UP'));
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(); // Ensure all animations and UI updates complete
 
-    // Verify that the snackbar is shown with the success message
+    // Verify if the success message snackbar appears
     expect(find.text('Your account has been successfully created'), findsOneWidget);
 
-    // Ensure the loading state is false after the registration process
+    // Ensure the loading state is false
     expect(registerController.loading.value, false);
   });
 }
