@@ -73,3 +73,4 @@ void main() {
     // Verify that the success message is shown
     expect(find.text('Your account has been successfully created'), findsOneWidget);
   });
+}
