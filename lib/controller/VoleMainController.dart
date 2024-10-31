@@ -19,7 +19,7 @@ class VoleMainController extends GetxController {
   void searchVoleMainFunction(String fm, String to) async {
     loading.value = true;
 
-    final url = Uri.parse('http://51.120.240.58:8083/api/VoleMain/$fm/$to');
+    final url = Uri.parse('http://51.120.4.43:8083/api/VoleMain/$fm/$to');
     Map<String, String> headers = {'content-Type': 'application/json'};
 
     try {

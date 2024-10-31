@@ -33,7 +33,7 @@ class LoginController extends GetxController {
   void loginFunction(String data) async {
     loading.value = true;
 
-    final url = Uri.parse('http://51.120.240.58:8083/api/user/login');
+    final url = Uri.parse('http://51.120.4.43:8083/api/user/login');
     Map<String, String> headers = {'content-Type': 'application/json'};
 
     try {
