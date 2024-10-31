@@ -30,7 +30,7 @@ void main() {
     when(mockClient.post(
       Uri.parse('http://51.120.4.43:8083/api/user/create'),
       headers: {'Content-Type': 'application/json'},
-      body: '{"email":"test@example.com","password":"password123","username":"TestUser"}',
+      body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
     )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
 
     // Build the RegisterPage widget
@@ -48,12 +48,12 @@ void main() {
     // Verify that the text fields are present
     expect(find.byType(TextField), findsNWidgets(3));
 
-    // Enter test data into the fields
-    await tester.enterText(find.byType(TextField).first, 'test@example.com');
+    // Enter test data into the fields following the order: username, email, password
+    await tester.enterText(find.byType(TextField).at(0), 'TestUser'); // Username
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField).at(1), 'TestUser');
+    await tester.enterText(find.byType(TextField).at(1), 'test@example.com'); // Email
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField).at(2), 'password123');
+    await tester.enterText(find.byType(TextField).at(2), 'password123'); // Password
     await tester.pumpAndSettle();
 
     // Tap the "SIGN UP" button
@@ -64,7 +64,7 @@ void main() {
     verify(mockClient.post(
       Uri.parse('http://51.120.4.43:8083/api/user/create'),
       headers: {'Content-Type': 'application/json'},
-      body: '{"email":"test@example.com","password":"password123","username":"TestUser"}',
+      body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
     )).called(1);
 
     // Check if the loading indicator is no longer active
