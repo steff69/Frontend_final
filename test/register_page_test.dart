@@ -42,18 +42,18 @@ void main() {
     );
 
     // Verify that the text fields for email, name, and password exist
-    expect(find.byType(TextFormField), findsNWidgets(3));
+    expect(find.byType(TextField), findsNWidgets(3));
 
     // Enter email
-    await tester.enterText(find.byType(TextFormField).first, 'test@example.com');
+    await tester.enterText(find.byType(TextField).first, 'test@example.com');
     await tester.pump();
 
     // Enter name
-    await tester.enterText(find.byType(TextFormField).at(1), 'TestUser');
+    await tester.enterText(find.byType(TextField).at(1), 'TestUser');
     await tester.pump();
 
     // Enter password
-    await tester.enterText(find.byType(TextFormField).at(2), 'password123');
+    await tester.enterText(find.byType(TextField).at(2), 'password123');
     await tester.pump();
 
     // Tap on the "SIGN UP" button
