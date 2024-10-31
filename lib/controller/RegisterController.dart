@@ -17,7 +17,7 @@ class RegisterController extends GetxController {
   // Constructor with an optional client parameter, defaulting to `http.Client()`
   RegisterController({http.Client? client}) : client = client ?? http.Client();
 
-  void registerFunction(String data) async {
+  Future<void> registerFunction(String data) async {
     loading.value = true;
     final url = Uri.parse('http://51.120.4.43:8083/api/user/create');
     Map<String, String> headers = {'content-Type': 'application/json'};
@@ -26,16 +26,21 @@ class RegisterController extends GetxController {
       final response = await client.post(url, headers: headers, body: data);
 
       if (response.statusCode == 200) {
-        String text = jsonDecode(response.body)["message"];
+        // Parse the response body safely
+        final responseBody = jsonDecode(response.body);
+        final message = responseBody?["message"] ?? "Registration completed";
+
         Get.snackbar(
           'Your account has been successfully created',
-          "$text",
+          message,
           backgroundColor: kPrimary,
           colorText: kLightwhite,
           icon: Icon(Ionicons.fast_food),
         );
 
-        Timer(Duration(seconds: 3), () => loading.value = false);
+        // Use Future.delayed instead of Timer for better async handling
+        await Future.delayed(Duration(seconds: 3));
+        loading.value = false;
 
         Get.offAll(
           () => LoginPage(),
@@ -43,20 +48,40 @@ class RegisterController extends GetxController {
           duration: Duration(milliseconds: 900),
         );
       } else if (response.statusCode == 400) {
-        String text = jsonDecode(response.body)["message"];
+        final responseBody = jsonDecode(response.body);
+        final message = responseBody?["message"] ?? "An error occurred";
+
         Get.snackbar(
           'You have something wrong',
-          "$text",
-          messageText: Text("$text", style: TextStyle(fontSize: 18, color: kLightwhite)),
+          message,
+          messageText: Text(message, style: TextStyle(fontSize: 18, color: kLightwhite)),
           colorText: kDark,
           backgroundColor: kRed,
           icon: Icon(Ionicons.fast_food_outline),
         );
 
-        Timer(Duration(seconds: 3), () => loading.value = false);
+        await Future.delayed(Duration(seconds: 3));
+        loading.value = false;
+      } else {
+        // Handle unexpected status codes
+        Get.snackbar(
+          'Unexpected Error',
+          'Please try again later. Error code: ${response.statusCode}',
+          backgroundColor: kRed,
+          colorText: kLightwhite,
+        );
+        loading.value = false;
       }
     } catch (e) {
-      print(e);
+      // Enhanced error handling
+      print('Error during registration: $e');
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred. Please check your connection and try again.',
+        backgroundColor: kRed,
+        colorText: kLightwhite,
+      );
+      loading.value = false;
     }
   }
 }
