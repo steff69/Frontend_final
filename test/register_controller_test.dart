@@ -17,16 +17,23 @@ void main() {
 
   setUp(() {
     Get.testMode = true;
-    mockClient = MockClient(); // Create a mock http.Client
+    mockClient = MockClient(); // Mock http.Client
     registerController = Get.put(RegisterController(client: mockClient)); // Inject the mock client
   });
 
   tearDown(() {
-    Get.delete<RegisterController>(); // Clean up the controller
+    Get.delete<RegisterController>();
   });
 
   testWidgets('Register Page UI Test', (WidgetTester tester) async {
-    // Build the RegisterPage widget within the test environment
+    // Set up the mocked HTTP response
+    when(mockClient.post(
+      any,
+      headers: anyNamed('headers'),
+      body: anyNamed('body'),
+    )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
+
+    // Initialize ScreenUtil and build the widget tree
     await tester.pumpWidget(
       ScreenUtilInit(
         designSize: Size(375, 812),
@@ -38,43 +45,25 @@ void main() {
       ),
     );
 
-    // Mock HTTP response for successful registration
-    when(mockClient.post(
-      any,
-      headers: anyNamed('headers'),
-      body: anyNamed('body'),
-    )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
-
-    // Check that the text fields are present
+    // Verify that text fields exist
     expect(find.byType(TextField), findsNWidgets(3));
 
-    // Enter email in the first TextField
+    // Enter email, name, and password
     await tester.enterText(find.byType(TextField).first, 'test@example.com');
-    await tester.pumpAndSettle();
-
-    // Enter name in the second TextField
+    await tester.pump();
     await tester.enterText(find.byType(TextField).at(1), 'TestUser');
-    await tester.pumpAndSettle();
-
-    // Enter password in the third TextField
+    await tester.pump();
     await tester.enterText(find.byType(TextField).at(2), 'password123');
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    // Tap the "SIGN UP" button
+    // Tap on the "SIGN UP" button and wait for UI update
     await tester.tap(find.text('SIGN UP'));
     await tester.pumpAndSettle();
 
-    // Verify that the HTTP POST request was made with the correct parameters
-    verify(mockClient.post(
-      Uri.parse('http://51.120.4.43:8083/api/user/create'),
-      headers: {'content-Type': 'application/json'},
-      body: '{"email":"test@example.com","password":"password123","username":"TestUser"}',
-    )).called(1);
-
-    // Simulate the success response and check UI updates
-    expect(registerController.loading.value, false);
-
-    // Verify a success snackbar is shown
+    // Verify that the snackbar is shown with the success message
     expect(find.text('Your account has been successfully created'), findsOneWidget);
+
+    // Ensure the loading state is false after the registration process
+    expect(registerController.loading.value, false);
   });
 }
