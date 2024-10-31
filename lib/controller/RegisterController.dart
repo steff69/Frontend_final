@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_app/constants/constants.dart';
 import 'package:travel_app/login/login.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class RegisterController extends GetxController {
   final box = GetStorage();
@@ -31,7 +32,7 @@ class RegisterController extends GetxController {
           "$text",
           backgroundColor: kPrimary,
           colorText: kLightwhite,
-          icon: Icon(Ionicons.fast_food_outline),
+          icon: Icon(Ionicons.fast_food),
         );
 
         Timer(Duration(seconds: 3), () => loading.value = false);
