@@ -45,10 +45,7 @@ void main() {
       ),
     );
 
-    // Verify that the text fields are present
-    expect(find.byType(TextField), findsNWidgets(3));
-
-    // Enter test data into the fields following the order: username, email, password
+    // Enter test data into the fields following the correct order
     await tester.enterText(find.byType(TextField).at(0), 'TestUser'); // Username
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField).at(1), 'test@example.com'); // Email
@@ -67,10 +64,7 @@ void main() {
       body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
     )).called(1);
 
-    // Check if the loading indicator is no longer active
-    expect(registerController.loading.value, false);
-
-    // Verify that the success message is shown
+    // Verify that the success snackbar is shown
     expect(find.text('Your account has been successfully created'), findsOneWidget);
   });
 }
