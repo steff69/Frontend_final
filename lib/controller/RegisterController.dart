@@ -29,10 +29,10 @@ class RegisterController extends GetxController {
         String text = jsonDecode(response.body)["message"];
         Get.snackbar(
           'Your account has been successfully created',
-          text,
+          "$text",
           backgroundColor: kPrimary,
           colorText: kLightwhite,
-          icon: Icon(Ionicons.checkmark_circle_outline),
+          icon: Icon(Ionicons.fast_food),
         );
 
         Timer(Duration(seconds: 3), () => loading.value = false);
@@ -45,25 +45,18 @@ class RegisterController extends GetxController {
       } else if (response.statusCode == 400) {
         String text = jsonDecode(response.body)["message"];
         Get.snackbar(
-          'Error',
-          text,
-          messageText: Text(text, style: TextStyle(fontSize: 18, color: kLightwhite)),
+          'You have something wrong',
+          "$text",
+          messageText: Text("$text", style: TextStyle(fontSize: 18, color: kLightwhite)),
           colorText: kDark,
           backgroundColor: kRed,
-          icon: Icon(Ionicons.alert_circle_outline),
+          icon: Icon(Ionicons.fast_food_outline),
         );
 
         Timer(Duration(seconds: 3), () => loading.value = false);
       }
     } catch (e) {
-      print("Error during registration: $e");
-      Get.snackbar(
-        'Network Error',
-        'Please try again later',
-        backgroundColor: kRed,
-        colorText: kLightwhite,
-      );
-      loading.value = false;
+      print(e);
     }
   }
 }
