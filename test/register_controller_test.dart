@@ -26,13 +26,6 @@ void main() {
   });
 
   testWidgets('Register Page UI Test', (WidgetTester tester) async {
-    // Mock the HTTP response for successful registration
-    when(mockClient.post(
-      Uri.parse('http://51.120.4.43:8083/api/user/create'),
-      headers: {'Content-Type': 'application/json'},
-      body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
-    )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
-
     // Build the RegisterPage widget
     await tester.pumpWidget(
       ScreenUtilInit(
@@ -52,6 +45,13 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField).at(2), 'password123'); // Password
     await tester.pumpAndSettle();
+
+    // Mock the HTTP response for successful registration
+    when(mockClient.post(
+      Uri.parse('http://51.120.4.43:8083/api/user/create'),
+      headers: {'Content-Type': 'application/json'},
+      body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
+    )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
 
     // Tap the "SIGN UP" button
     await tester.tap(find.text('SIGN UP'));

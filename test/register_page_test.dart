@@ -24,9 +24,9 @@ void main() {
 
     // Mock HTTP response for the specific post request
     when(mockClient.post(
-      Uri.parse('http://10.0.2.2:5000/api/user/create'),
+      Uri.parse('http://51.120.4.43:8083/api/user/create'),
       headers: anyNamed('headers'),
-      body: '{"email":"test@example.com","password":"password123","username":"TestUser"}',
+      body: '{"username":"TestUser","email":"test@example.com","password":"password123"}',
     )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
 
     // Initialize ScreenUtil before building the widget
