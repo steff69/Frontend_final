@@ -65,4 +65,5 @@ void main() {
 
     // Ensure the loading state is false after completion
     expect(registerController.loading.value, false);
-  });
+  }); // <-- Closing brace for the testWidgets block
+} // <-- Closing brace for the main function
