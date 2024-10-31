@@ -30,7 +30,7 @@ void main() {
     when(mockClient.post(
       Uri.parse('http://51.120.4.43:8083/api/user/create'),
       headers: {'content-Type': 'application/json'},
-      body: anyNamed('body'),
+      body: '{"email":"test@example.com","password":"password123","username":"TestUser"}',
     )).thenAnswer((_) async => http.Response('{"message": "Registration successful"}', 200));
 
     // Build the widget tree with ScreenUtilInit
@@ -58,12 +58,11 @@ void main() {
 
     // Tap on the "SIGN UP" button
     await tester.tap(find.text('SIGN UP'));
-    await tester.pumpAndSettle(); // Ensure all animations and UI updates complete
+    await tester.pumpAndSettle(); // Wait for all animations and UI updates
 
     // Verify if the success message snackbar appears
     expect(find.text('Your account has been successfully created'), findsOneWidget);
 
-    // Ensure the loading state is false
+    // Ensure the loading state is false after completion
     expect(registerController.loading.value, false);
   });
-}
