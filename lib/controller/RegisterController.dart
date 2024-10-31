@@ -20,68 +20,84 @@ class RegisterController extends GetxController {
   Future<void> registerFunction(String data) async {
     loading.value = true;
     final url = Uri.parse('http://51.120.4.43:8083/api/user/create');
-    Map<String, String> headers = {'content-Type': 'application/json'};
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
     try {
       final response = await client.post(url, headers: headers, body: data);
 
       if (response.statusCode == 200) {
-        // Parse the response body safely
         final responseBody = jsonDecode(response.body);
-        final message = responseBody?["message"] ?? "Registration completed";
+        final message = responseBody["message"] ?? "Registration completed";
 
-        Get.snackbar(
-          'Your account has been successfully created',
-          message,
+        showSnackbar(
+          title: 'Your account has been successfully created',
+          message: message,
           backgroundColor: kPrimary,
-          colorText: kLightwhite,
-          icon: Icon(Ionicons.fast_food),
+          icon: Ionicons.fast_food,
         );
 
-        // Use Future.delayed instead of Timer for better async handling
+        // Wait for a few seconds before navigating away
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
 
-        Get.offAll(
-          () => LoginPage(),
-          transition: Transition.fade,
-          duration: Duration(milliseconds: 900),
-        );
+        // Navigate to the LoginPage
+        Get.offAll(() => LoginPage(), transition: Transition.fade, duration: Duration(milliseconds: 900));
       } else if (response.statusCode == 400) {
         final responseBody = jsonDecode(response.body);
-        final message = responseBody?["message"] ?? "An error occurred";
+        final message = responseBody["message"] ?? "An error occurred";
 
-        Get.snackbar(
-          'You have something wrong',
-          message,
-          messageText: Text(message, style: TextStyle(fontSize: 18, color: kLightwhite)),
-          colorText: kDark,
+        showSnackbar(
+          title: 'You have something wrong',
+          message: message,
           backgroundColor: kRed,
-          icon: Icon(Ionicons.fast_food_outline),
+          icon: Ionicons.fast_food_outline,
+          isError: true,
         );
 
         await Future.delayed(Duration(seconds: 3));
         loading.value = false;
       } else {
-        // Handle unexpected status codes
-        Get.snackbar(
-          'Unexpected Error',
-          'Please try again later. Error code: ${response.statusCode}',
-          backgroundColor: kRed,
-          colorText: kLightwhite,
-        );
-        loading.value = false;
+        handleUnexpectedError(response.statusCode);
       }
     } catch (e) {
-      // Enhanced error handling
-      print('Error during registration: $e');
-      Get.snackbar(
-        'Error',
-        'An unexpected error occurred. Please check your connection and try again.',
-        backgroundColor: kRed,
-        colorText: kLightwhite,
-      );
+      handleException(e);
+    } finally {
       loading.value = false;
     }
+  }
+
+  void showSnackbar({
+    required String title,
+    required String message,
+    required Color backgroundColor,
+    required IconData icon,
+    bool isError = false,
+  }) {
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: backgroundColor,
+      colorText: isError ? kDark : kLightwhite,
+      icon: Icon(icon),
+    );
+  }
+
+  void handleUnexpectedError(int statusCode) {
+    Get.snackbar(
+      'Unexpected Error',
+      'Please try again later. Error code: $statusCode',
+      backgroundColor: kRed,
+      colorText: kLightwhite,
+    );
+  }
+
+  void handleException(Object exception) {
+    print('Error during registration: $exception');
+    Get.snackbar(
+      'Error',
+      'An unexpected error occurred. Please check your connection and try again.',
+      backgroundColor: kRed,
+      colorText: kLightwhite,
+    );
   }
 }
