@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:travel_app/pages/welcome_page.dart';
 import 'package:travel_app/pages/MainScreen.dart';
 import 'package:travel_app/controller/testControl.dart'; // Ensure this path is correct
-// Import `ControllerState` if it's in a separate file
 
 void main() {
   setUp(() {
@@ -17,7 +16,7 @@ void main() {
     Get.delete<TetyController>();
   });
 
-  testWidgets('WelcomePage displays elements and navigates on button tap', (WidgetTester tester) async {
+  testWidgets('WelcomePage displays elements and navigates to MainScreen', (WidgetTester tester) async {
     // Build the widget tree using GetMaterialApp to handle navigation.
     await tester.pumpWidget(
       GetMaterialApp(
@@ -44,8 +43,20 @@ void main() {
 
     // Verify that we navigated to the MainScreen.
     expect(find.byType(MainScreen), findsOneWidget);
-  });
 
-  // Optional: Add other test cases to verify the behavior of TetyController in various states.
-  // This section depends on whether your TetyController has different states you want to test.
+    // Additional checks on the MainScreen
+    // Verify specific UI elements
+    expect(find.text("Main Dashboard"), findsOneWidget); // Replace with actual element text
+    expect(find.byIcon(Icons.settings), findsOneWidget); // Example icon check
+
+    // Simulate user interactions on MainScreen
+    final button = find.text("Explore"); // Replace with actual button text
+    if (button.evaluate().isNotEmpty) {
+      await tester.tap(button);
+      await tester.pump(); // Trigger any changes due to interaction
+    }
+
+    // Verify state change or response after the interaction
+    expect(find.text("Explore Page"), findsOneWidget); // Replace with the result of interaction
+  });
 }
