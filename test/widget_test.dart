@@ -16,7 +16,7 @@ void main() {
     Get.delete<TetyController>();
   });
 
-  testWidgets('WelcomePage displays elements and navigates to MainScreen', (WidgetTester tester) async {
+  testWidgets('WelcomePage displays elements and navigates to MainScreen with detailed checks', (WidgetTester tester) async {
     // Build the widget tree using GetMaterialApp to handle navigation.
     await tester.pumpWidget(
       GetMaterialApp(
@@ -44,19 +44,22 @@ void main() {
     // Verify that we navigated to the MainScreen.
     expect(find.byType(MainScreen), findsOneWidget);
 
-    // Additional checks on the MainScreen
-    // Verify specific UI elements
-    expect(find.text("Main Dashboard"), findsOneWidget); // Replace with actual element text
-    expect(find.byIcon(Icons.settings), findsOneWidget); // Example icon check
+    // Wait for asynchronous processes to complete in MainScreen.
+    await tester.pumpAndSettle();
 
-    // Simulate user interactions on MainScreen
-    final button = find.text("Explore"); // Replace with actual button text
-    if (button.evaluate().isNotEmpty) {
-      await tester.tap(button);
-      await tester.pump(); // Trigger any changes due to interaction
+    // Additional verification for elements on the MainScreen.
+    expect(find.text("Main Dashboard"), findsOneWidget); // Adjust text as needed.
+
+    // Check for specific widgets or buttons.
+    expect(find.byIcon(Icons.settings), findsOneWidget); // Example: check for a settings icon.
+    expect(find.text("Explore"), findsOneWidget); // Example: check for a button labeled "Explore".
+
+    // Simulate interaction with a button on MainScreen (if applicable).
+    final exploreButton = find.text("Explore");
+    if (exploreButton.evaluate().isNotEmpty) {
+      await tester.tap(exploreButton);
+      await tester.pumpAndSettle(); // Wait for any subsequent action or screen.
+      expect(find.text("Explore Page"), findsOneWidget); // Verify next action or screen.
     }
-
-    // Verify state change or response after the interaction
-    expect(find.text("Explore Page"), findsOneWidget); // Replace with the result of interaction
   });
 }
