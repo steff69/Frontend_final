@@ -1,29 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_app/main.dart';
+import 'package:travel_app/pages/welcome_page.dart'; // Import the WelcomePage
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('WelcomePage displays correct elements', (WidgetTester tester) async {
+    // Build the WelcomePage and trigger a frame.
+    await tester.pumpWidget(const MaterialApp(home: WelcomePage()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Check for the main welcome text.
+    expect(find.text("Welcome to \nTunisair Mobile"), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Check for the subtitle text.
+    expect(find.text("Your gateway to seamless travel and exclusive Fidelys benefits right at your fingertips."), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check for the 'Get Started' button.
+    expect(find.text("Get Started"), findsOneWidget);
+
+    // Check if the 'Get Started' button works and navigates to MainScreen.
+    await tester.tap(find.text("Get Started"));
+    await tester.pumpAndSettle(); // Wait for the navigation animation to complete.
+
+    // Verify if MainScreen is displayed (if you have a specific widget to check on MainScreen, use it here).
+    expect(find.byType(MainScreen), findsOneWidget);
   });
 }
