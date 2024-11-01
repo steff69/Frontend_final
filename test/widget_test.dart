@@ -3,11 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:travel_app/pages/welcome_page.dart';
 import 'package:travel_app/pages/MainScreen.dart';
-import 'package:travel_app/controller/testControl.dart'; 
+import 'package:travel_app/controller/testControl.dart';
 
 void main() {
+  setUp(() {
+    // Initialize the TetyController to ensure it's available during tests.
+    Get.put(TetyController());
+  });
+
+  tearDown(() {
+    // Remove the TetyController after each test to avoid conflicts.
+    Get.delete<TetyController>();
+  });
+
   testWidgets('WelcomePage displays elements and navigates on button tap', (WidgetTester tester) async {
-    // Initialize the app with Get for navigation purposes.
+    // Build the widget tree using GetMaterialApp to handle navigation.
     await tester.pumpWidget(
       GetMaterialApp(
         home: WelcomePage(),
