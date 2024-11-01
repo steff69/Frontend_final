@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:travel_app/pages/welcome_page.dart.dart';
 import 'package:travel_app/pages/MainScreen.dart';
+import 'package:travel_app/controller/testControl.dart'; 
 
 void main() {
   testWidgets('WelcomePage displays elements and navigates on button tap', (WidgetTester tester) async {
