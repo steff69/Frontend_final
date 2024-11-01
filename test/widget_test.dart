@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:travel_app/pages/welcome_page.dart';
+import 'package:travel_app/pages/welcome_page.dart.dart';
 import 'package:travel_app/pages/MainScreen.dart';
 
 void main() {
