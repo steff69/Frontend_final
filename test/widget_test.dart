@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/pages/welcome_page.dart'; // Import the WelcomePage
+import 'package:travel_app/pages/MainScreen.dart'; // Ensure MainScreen is correctly imported
 
 void main() {
   testWidgets('WelcomePage displays correct elements', (WidgetTester tester) async {
