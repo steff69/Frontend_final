@@ -17,12 +17,12 @@ steps:
   displayName: 'Clone Backend Repository'
 
 # Flutter updates
-#- script: |
-#    flutter --version
-#    flutter pub outdated
-#    flutter pub upgrade --major-versions
-#    flutter pub get 
-#  displayName: 'Flutter updates (upgrade --major-versions)'
+- script: |
+    flutter --version
+    flutter pub outdated
+    flutter pub upgrade --major-versions
+    flutter pub get 
+  displayName: 'Flutter updates (upgrade --major-versions)'
 
 # Run Tests First
 - script: |
