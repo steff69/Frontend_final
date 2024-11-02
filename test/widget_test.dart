@@ -14,7 +14,7 @@ void main() {
     Get.delete<TetyController>();
   });
 
-  testWidgets('WelcomePage displays elements and navigates on button tap', (WidgetTester tester) async {
+  testWidgets('WelcomePage displays elements and navigates correctly', (WidgetTester tester) async {
     await tester.pumpWidget(
       GetMaterialApp(
         home: WelcomePage(),
