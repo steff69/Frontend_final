@@ -63,7 +63,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-              ./azure_devops_exporter --azuredevops.organisation "MustaphaAOUADI" --azuredevops.access-token "1MorUYF3Y3n34VZu0xbwz6VNo4Ymt07aKi02yb3Z5jwtI5HIFXZFJQQJ99AKACAAAAA8Ca2JAAASAZDOpPZS" --server.bind ":9091"
+              ./home/azureuser/azure-devops-exporter/azure_devops_exporter --azuredevops.organisation "MustaphaAOUADI" --azuredevops.access-token "1MorUYF3Y3n34VZu0xbwz6VNo4Ymt07aKi02yb3Z5jwtI5HIFXZFJQQJ99AKACAAAAA8Ca2JAAASAZDOpPZS" --server.bind ":9091"
   displayName: 'Run Azure DevOps Exporter'
 
 
