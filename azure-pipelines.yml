@@ -124,12 +124,11 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
-    artifactName: 'DependencyCheckReport'
+    artifactName: 'FrontendDependencyCheckReport'
     publishLocation: 'Container'
   displayName: 'Frontend Publish Dependency Check Report'
 
-
-# Run Dependency Check (Backend)
+# Run Backend Dependency Check
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -140,7 +139,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
-    artifactName: 'DependencyCheckReport'
+    artifactName: 'BackendDependencyCheckReport'
     publishLocation: 'Container'
   displayName: 'Backend Publish Dependency Check Report'
 
