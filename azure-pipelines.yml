@@ -67,50 +67,49 @@ steps:
   displayName: 'Build APK'
 
 
-#- task: SonarQubePrepare@7
-#  inputs:
-#    SonarQube: 'trahconnection'
-#    scannerMode: 'cli'
-#    configMode: 'manual'
-#    cliProjectKey: 'Frontend_final'
-#    cliProjectName: 'Frontend_final'
-#    cliSources: '.'
-#    extraProperties: 
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'cli'
+    configMode: 'manual'
+    cliProjectKey: 'Frontend_final'
+    cliProjectName: 'Frontend_final'
+    cliSources: '.'
+    extraProperties: 
 
 
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-#- task: SonarQubeAnalyze@7
-#  inputs:
-#    jdkversion: 'JAVA_HOME_17_X64'
-
-#- task: SonarQubePublish@7
-#  inputs:
-#    pollingTimeoutSec: '600'
+- task: SonarQubePublish@7
+  inputs:
+    pollingTimeoutSec: '600'
 
 # SonarQube Analysis (Backend)
 
-#- task: SonarQubePrepare@7
-#  inputs:
-#    SonarQube: 'trahconnection'
-#    scannerMode: 'CLI'
-#    configMode: 'manual'
-#    cliProjectKey: 'Backend_final'
-#    cliProjectName: 'Backend_final'
-#    cliSources: 'backend'  # Scan all files in the backend directory
-#    extraProperties: |
-#      sonar.nodejs.binaries=/usr/bin/node
-#      sonar.projectVersion=1.0
-#      sonar.sourceEncoding=UTF-8
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Backend_final'
+    cliProjectName: 'Backend_final'
+    cliSources: 'backend'  # Scan all files in the backend directory
+    extraProperties: |
+      sonar.nodejs.binaries=/usr/bin/node
+      sonar.projectVersion=1.0
+      sonar.sourceEncoding=UTF-8
 
 
 
-#- task: SonarQubeAnalyze@7
-#  inputs:
-#    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-#- task: SonarQubePublish@7
-#  inputs:
-#      pollingTimeoutSec: '600'
+- task: SonarQubePublish@7
+  inputs:
+      pollingTimeoutSec: '600'
 
 
 # Run Dependency Check (Frontend)
@@ -179,37 +178,37 @@ steps:
   displayName: 'Create Reports Directory'
 
 # Trivy scan for the frontend Docker image
-#- task: Bash@3
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-frontend-report.txt
-#  displayName: 'Run Trivy Scan on Frontend'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-frontend-report.txt
+  displayName: 'Run Trivy Scan on Frontend'
 
 # Trivy scan for the backend Docker image
-#- task: Bash@3
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-backend-report.txt
-#  displayName: 'Run Trivy Scan on Backend'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-backend-report.txt
+  displayName: 'Run Trivy Scan on Backend'
 
 # Publish both Trivy Reports
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    PathtoPublish: 'trivy-reports'  # Publish the entire directory
-#    artifactName: 'TrivyReports(Front and Fack)'    # Name of the artifact
-#    publishLocation: 'Container'
-#  displayName: 'Publish Trivy Reports'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'trivy-reports'  # Publish the entire directory
+    artifactName: 'TrivyReports(Front and Fack)'    # Name of the artifact
+    publishLocation: 'Container'
+  displayName: 'Publish Trivy Reports'
 
 # Push Docker Images for frontend 
-#- task: Docker@2
-#  inputs:
-#    containerRegistry: 'docker'
-#    repository: 'mustapha69/frontend_final'
-#    command: 'push'
-#    tags: '$(Build.BuildId)'
-#  displayName: 'Push Frontend Docker To Registry'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/frontend_final'
+    command: 'push'
+    tags: '$(Build.BuildId)'
+  displayName: 'Push Frontend Docker To Registry'
 
 # Push Docker Images for backend after Trivy Scan passes
 - task: Docker@2
