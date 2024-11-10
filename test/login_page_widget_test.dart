@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:travel_app/pages/login.dart';
+import 'package:travel_app/login/login.dart';
 import 'package:travel_app/controller/LoginController.dart';
 
 void main() {
