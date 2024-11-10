@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:travel_app/login/login.dart';
+import 'package:travel_app/pages/login.dart';
 import 'package:travel_app/controller/LoginController.dart';
 
 void main() {
@@ -15,11 +15,10 @@ void main() {
   });
 
   testWidgets('LoginPage displays elements and navigates correctly', (WidgetTester tester) async {
-    // Initialize ScreenUtil
+    // Initialize ScreenUtil without orientation
     ScreenUtil.init(
       BoxConstraints(maxWidth: 1080, maxHeight: 1920),
       designSize: Size(1080, 1920),
-      orientation: Orientation.portrait,
     );
 
     // Pump the LoginPage widget
