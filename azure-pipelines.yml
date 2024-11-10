@@ -27,7 +27,7 @@ steps:
 # Run Tests First
 - script: |
     flutter --version
-    flutter test test/widget_test.dart
+    flutter test test/WidgetWelcome_test.dart
     
 
   displayName: 'Widget Test'
