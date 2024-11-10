@@ -117,24 +117,30 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/DependencyCheckReports/frontend-dependency-check-report.html' --data /opt/dependency-check/data --noupdate
+       /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
   displayName: 'Run Frontend Dependency Check'
   
-# Run Dependency Check (Backend)
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
+    artifactName: 'FrontendDependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Frontend Publish Dependency Check Report'
+
+# Run Backend Dependency Check
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/DependencyCheckReports/backend-dependency-check-report.html' --data /opt/dependency-check/data --noupdate
+       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
   displayName: 'Run Backend Dependency Check'
 
-# Publish Both Dependency Check Reports
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/DependencyCheckReports'
-    artifactName: 'DependencyCheckReports'
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
+    artifactName: 'BackendDependencyCheckReport'
     publishLocation: 'Container'
-  displayName: 'Publish Dependency Check Reports'
+  displayName: 'Backend Publish Dependency Check Report'
 
 
 
