@@ -28,6 +28,8 @@ steps:
 - script: |
     flutter --version
     flutter test test/widget_test.dart
+    flutter test test/login_page_widget_test.dart
+
   displayName: 'Widget Test'
 
 #- script: |
