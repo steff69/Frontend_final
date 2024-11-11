@@ -28,9 +28,10 @@ steps:
 - script: |
     flutter --version
     flutter test test/WidgetWelcome_test.dart
-    
-
-  displayName: 'Widget Test'
+#    flutter test test/WidgetProfile_test.dart
+##    flutter test test/WidgetRegister_test.dart
+#    flutter test test/WidgetLogin_test.dart
+  displayName: 'Widget Tests (Interfaces)'
 
 #- script: |
 #    flutter pub get
@@ -55,7 +56,6 @@ steps:
 # Run Backend Tests
 - script: |
     cd backend
-    npm install
     npm test
     npm audit fix --force
   displayName: 'Run Backend Tests'
@@ -69,80 +69,80 @@ steps:
   displayName: 'Build APK'
 
 
-#- task: SonarQubePrepare@7
-#  inputs:
-#    SonarQube: 'trahconnection'
-#    scannerMode: 'cli'
-#    configMode: 'manual'
-#    cliProjectKey: 'Frontend_final'
-#    cliProjectName: 'Frontend_final'
-#    cliSources: '.'
-#    extraProperties: 
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'cli'
+    configMode: 'manual'
+    cliProjectKey: 'Frontend_final'
+    cliProjectName: 'Frontend_final'
+    cliSources: '.'
+    extraProperties: 
 
 
-#- task: SonarQubeAnalyze@7
-#  inputs:
-#    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-#- task: SonarQubePublish@7
-#  inputs:
-#    pollingTimeoutSec: '600'
+- task: SonarQubePublish@7
+  inputs:
+    pollingTimeoutSec: '600'
 
 # SonarQube Analysis (Backend)
 
-#- task: SonarQubePrepare@7
-#  inputs:
-#    SonarQube: 'trahconnection'
-#    scannerMode: 'CLI'
-#    configMode: 'manual'
-#    cliProjectKey: 'Backend_final'
-#    cliProjectName: 'Backend_final'
-#    cliSources: 'backend'  # Scan all files in the backend directory
-#    extraProperties: |
-#      sonar.nodejs.binaries=/usr/bin/node
-#      sonar.projectVersion=1.0
-#      sonar.sourceEncoding=UTF-8
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'trahconnection'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Backend_final'
+    cliProjectName: 'Backend_final'
+    cliSources: 'backend'  # Scan all files in the backend directory
+    extraProperties: |
+      sonar.nodejs.binaries=/usr/bin/node
+      sonar.projectVersion=1.0
+      sonar.sourceEncoding=UTF-8
 
 
 
-#- task: SonarQubeAnalyze@7
-#  inputs:
-#    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
 
-#- task: SonarQubePublish@7
-#  inputs:
-#      pollingTimeoutSec: '600'
+- task: SonarQubePublish@7
+  inputs:
+      pollingTimeoutSec: '600'
 
 
 # Run Dependency Check (Frontend)
-#- task: Bash@3
- # inputs:
- #   targetType: 'inline'
-  #  script: |
-  #     /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
- # displayName: 'Run Frontend Dependency Check'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
+  displayName: 'Run Frontend Dependency Check'
   
-#- task: PublishBuildArtifacts@1
- # inputs:
- #   PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
- #   artifactName: 'FrontendDependencyCheckReport'
- #   publishLocation: 'Container'
- # displayName: 'Frontend Publish Dependency Check Report'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
+    artifactName: 'FrontendDependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Frontend Publish Dependency Check Report'
 
 # Run Backend Dependency Check
-#- task: Bash@3
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
-#  displayName: 'Run Backend Dependency Check'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
+  displayName: 'Run Backend Dependency Check'
 
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
-#    artifactName: 'BackendDependencyCheckReport'
-#    publishLocation: 'Container'
-#  displayName: 'Backend Publish Dependency Check Report'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
+    artifactName: 'BackendDependencyCheckReport'
+    publishLocation: 'Container'
+  displayName: 'Backend Publish Dependency Check Report'
 
 
 
@@ -155,16 +155,7 @@ steps:
       docker ps -q --filter "publish=8080" | grep -q . && docker stop $(docker ps -q --filter "publish=8080") && docker rm $(docker ps -aq --filter "publish=8080") || echo "No container running on port 8080"
 
 
-# Build Docker Images for frontend
-- task: Docker@2
-  inputs:
-    containerRegistry: 'docker'
-    repository: 'mustapha69/frontend_final'
-    command: 'build'
-    Dockerfile: 'Docker/Dockerfile'
-    buildContext: '/home/azureuser/myagent/_work/1/s'
-    tags: '$(Build.BuildId)'
-  displayName: 'Build Frontend Docker Image'
+
 
 # Build Docker Images for backend
 - task: Docker@2
@@ -176,6 +167,17 @@ steps:
     buildContext: '/home/azureuser/myagent/_work/1/s'
     tags: '$(Build.BuildId)'
   displayName: 'Build Backend Docker Image'
+  
+# Build Docker Images for frontend
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'mustapha69/frontend_final'
+    command: 'build'
+    Dockerfile: 'Docker/Dockerfile'
+    buildContext: '/home/azureuser/myagent/_work/1/s'
+    tags: '$(Build.BuildId)'
+  displayName: 'Build Frontend Docker Image'
 
 # Create a directory to hold both reports
 - task: Bash@3
