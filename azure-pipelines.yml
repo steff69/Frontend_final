@@ -97,7 +97,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'Backend_final'
     cliProjectName: 'Backend_final'
-    cliSources: 'backend'  # Scan all files in the backend directory
+    cliSources: 'backend'  
     extraProperties: |
       sonar.nodejs.binaries=/usr/bin/node
       sonar.projectVersion=1.0
@@ -206,8 +206,8 @@ steps:
 # Publish both Trivy Reports
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'trivy-reports'  # Publish the entire directory
-    artifactName: 'TrivyReports(Front and Fack)'    # Name of the artifact
+    PathtoPublish: 'trivy-reports'  
+    artifactName: 'TrivyReports(Front and Fack)'    
     publishLocation: 'Container'
   displayName: 'Publish Trivy Reports'
 
