@@ -71,8 +71,23 @@ class RecommendedPlaces extends StatelessWidget {
                               color: Colors.yellow.shade700,
                               size: 14,
                             ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow.shade700,
+                              size: 14,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow.shade700,
+                              size: 14,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow.shade700,
+                              size: 14,
+                            ),
                             const Text(
-                              "4.8",
+                              "",
                               style: TextStyle(
                                 fontSize: 12,
                               ),

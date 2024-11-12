@@ -80,9 +80,23 @@ class NearbyPlaces extends StatelessWidget {
                                   Icons.star,
                                   color: Colors.yellow.shade700,
                                   size: 14,
+                                ),    Icon(
+                                  Icons.star,
+                                  color: Colors.yellow.shade700,
+                                  size: 14,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow.shade700,
+                                  size: 14,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow.shade700,
+                                  size: 14,
                                 ),
                                 const Text(
-                                  "4.8",
+                                  "",
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -95,14 +109,14 @@ class NearbyPlaces extends StatelessWidget {
                                       fontSize: 20,
                                       color: Theme.of(context).primaryColor,
                                     ),
-                                    text: "€99",
+                                    text: "",
                                     children: const [
                                       TextSpan(
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black54,
                                         ),
-                                        text: " / Person",
+                                        text: " ",
                                       ),
                                     ],
                                   ),

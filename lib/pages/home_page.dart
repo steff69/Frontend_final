@@ -33,9 +33,7 @@ class HomePage extends StatelessWidget {
               const LocationCard(),
               const SizedBox(height: 20),
 
-              // Tourist Places Section
-              const TouristPlaces(),
-              const SizedBox(height: 20),
+   
 
               // Recommendation Section
               _buildSectionTitle("Recommendation", context),
@@ -99,7 +97,7 @@ class HomePage extends StatelessWidget {
             // Implement your 'See All' functionality here
           },
           child: Text(
-            "See All",
+            "",
             style: TextStyle(
               color: Colors.lightBlueAccent.shade100,
               fontWeight: FontWeight.bold,

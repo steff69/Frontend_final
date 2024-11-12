@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:travel_app/pages/VoleMain.dart'; // Make sure to import the VoleMain.dart file
 
-class TouristDetailsPage extends StatelessWidget {
+class TouristDetailsPage extends StatefulWidget {
   const TouristDetailsPage({
     Key? key,
     required this.image,
@@ -12,6 +13,13 @@ class TouristDetailsPage extends StatelessWidget {
   final String image;
   final String name;
   final String descirption;
+
+  @override
+  _TouristDetailsPageState createState() => _TouristDetailsPageState();
+}
+
+class _TouristDetailsPageState extends State<TouristDetailsPage> {
+  bool isFavorite = false; // Variable to track if heart is clicked
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,7 @@ class TouristDetailsPage extends StatelessWidget {
                             borderRadius: const BorderRadius.vertical(
                                 bottom: Radius.circular(20)),
                             image: DecorationImage(
-                              image: NetworkImage(image),
+                              image: NetworkImage(widget.image),
                               fit: BoxFit.cover,
                             ),
                             boxShadow: [
@@ -68,8 +76,15 @@ class TouristDetailsPage extends StatelessWidget {
                                 ),
                                 IconButton(
                                   iconSize: 20,
-                                  onPressed: () {},
-                                  icon: const Icon(Ionicons.heart_outline),
+                                  onPressed: () {
+                                    setState(() {
+                                      isFavorite = !isFavorite; // Toggle favorite state
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Ionicons.heart,
+                                    color: isFavorite ? Colors.red : Colors.black54, // Change color based on state
+                                  ),
                                 ),
                               ],
                             ),
@@ -86,7 +101,7 @@ class TouristDetailsPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            name,
+                            widget.name,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 5),
@@ -97,20 +112,11 @@ class TouristDetailsPage extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: IconButton(
-                          onPressed: () {},
-                          iconSize: 20,
-                          icon:
-                              const Icon(Ionicons.chatbubble_ellipses_outline), 
-                        ),
-                      ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "4.6",
+                            "4",
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           Icon(
@@ -125,7 +131,7 @@ class TouristDetailsPage extends StatelessWidget {
                   const SizedBox(height: 15),
                   const SizedBox(height: 10),
                   Text(
-                    descirption,
+                    widget.descirption,
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                     maxLines: 7,
@@ -137,7 +143,13 @@ class TouristDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigate to TravelFormScreen on button press
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TravelFormScreen()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
                   shape: const StadiumBorder(),
@@ -148,7 +160,7 @@ class TouristDetailsPage extends StatelessWidget {
                   minimumSize: Size(double.infinity, 50),
                 ),
                 child: const Text(
-                  "check more details",
+                  "Grab Your Seat Now!",
                   style: TextStyle(fontSize: 16),
                 ),
               ),

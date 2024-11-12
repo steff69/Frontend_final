@@ -11,6 +11,8 @@ import 'package:travel_app/widgets/EditeProfile.dart';
 import 'package:travel_app/widgets/mony.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:travel_app/pages/VoleMain.dart';
+import 'package:travel_app/pages/CoHome.dart';
+
 import 'package:travel_app/pages/home_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -220,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Welcome Page',
                   icon: Icons.home,
                   onTap: () {
-                    Get.to(() => HomePage());
+                    Get.to(() => CoHome());
                   },
                 ),
               ],
