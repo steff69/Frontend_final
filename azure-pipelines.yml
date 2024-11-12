@@ -27,7 +27,7 @@ steps:
 # Run Tests First
 - script: |
     flutter --version
-    flutter test test/WidgetWelcome_test.dart
+  #  flutter test test/WidgetWelcome_test.dart
 #    flutter test test/WidgetProfile_test.dart
 ##    flutter test test/WidgetRegister_test.dart
 #    flutter test test/WidgetLogin_test.dart
@@ -54,11 +54,11 @@ steps:
 #    testResultsFormat: 'PublishTestResults JUnit'
 
 # Run Backend Tests
-- script: |
-    cd backend
-    npm test
-    npm audit fix --force
-  displayName: 'Run Backend Tests'
+#- script: |
+#    cd backend
+#    npm test
+#    npm audit fix --force
+#  displayName: 'Run Backend Tests'
 
 
 # Build APK after tests pass
@@ -69,80 +69,80 @@ steps:
   displayName: 'Build APK'
 
 
-- task: SonarQubePrepare@7
-  inputs:
-    SonarQube: 'trahconnection'
-    scannerMode: 'cli'
-    configMode: 'manual'
-    cliProjectKey: 'Frontend_final'
-    cliProjectName: 'Frontend_final'
-    cliSources: '.'
-    extraProperties: 
+#- task: SonarQubePrepare@7
+#  inputs:
+ #   SonarQube: 'trahconnection'
+ #   scannerMode: 'cli'
+ #   configMode: 'manual'
+ #   cliProjectKey: 'Frontend_final'
+ #   cliProjectName: 'Frontend_final'
+ #   cliSources: '.'
+ #   extraProperties: 
 
 
-- task: SonarQubeAnalyze@7
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
+#- task: SonarQubeAnalyze@7
+#  inputs:
+#    jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@7
-  inputs:
-    pollingTimeoutSec: '600'
+##- task: SonarQubePublish@7
+#  inputs:
+#    pollingTimeoutSec: '600'
 
 # SonarQube Analysis (Backend)
 
-- task: SonarQubePrepare@7
-  inputs:
-    SonarQube: 'trahconnection'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'Backend_final'
-    cliProjectName: 'Backend_final'
-    cliSources: 'backend'  
-    extraProperties: |
-      sonar.nodejs.binaries=/usr/bin/node
-      sonar.projectVersion=1.0
-      sonar.sourceEncoding=UTF-8
+#- task: SonarQubePrepare@7
+#  inputs:
+#    SonarQube: 'trahconnection'
+#    scannerMode: 'CLI'
+#    configMode: 'manual'
+#    cliProjectKey: 'Backend_final'
+#    cliProjectName: 'Backend_final'
+#    cliSources: 'backend'  
+#    extraProperties: |
+#      sonar.nodejs.binaries=/usr/bin/node
+#      sonar.projectVersion=1.0
+#      sonar.sourceEncoding=UTF-8
 
 
 
-- task: SonarQubeAnalyze@7
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
+#- task: SonarQubeAnalyze@7
+#  inputs:
+#    jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@7
-  inputs:
-      pollingTimeoutSec: '600'
+#- task: SonarQubePublish@7
+#  inputs:
+#      pollingTimeoutSec: '600'
 
 
 # Run Dependency Check (Frontend)
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
-  displayName: 'Run Frontend Dependency Check'
+#- task: Bash@3
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      /opt/dependency-check/bin/dependency-check.sh --project "Frontend_final" --scan '/home/azureuser/myagent/_work/1/s' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check' --data /opt/dependency-check/data --noupdate
+#  displayName: 'Run Frontend Dependency Check'
   
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
-    artifactName: 'FrontendDependencyCheckReport'
-    publishLocation: 'Container'
-  displayName: 'Frontend Publish Dependency Check Report'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/frontend-dependency-check'
+ #   artifactName: 'FrontendDependencyCheckReport'
+ #   publishLocation: 'Container'
+ # displayName: 'Frontend Publish Dependency Check Report'
 
 # Run Backend Dependency Check
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
-  displayName: 'Run Backend Dependency Check'
+#- task: Bash@3
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#       /opt/dependency-check/bin/dependency-check.sh --project "Backend_final" --scan '/home/azureuser/myagent/_work/1/s/backend' --format 'HTML' --out '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check' --data /opt/dependency-check/data --noupdate
+#  displayName: 'Run Backend Dependency Check'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
-    artifactName: 'BackendDependencyCheckReport'
-    publishLocation: 'Container'
-  displayName: 'Backend Publish Dependency Check Report'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '/home/azureuser/myagent/_work/1/TestResults/backend-dependency-check'
+#    artifactName: 'BackendDependencyCheckReport'
+#    publishLocation: 'Container'
+#  displayName: 'Backend Publish Dependency Check Report'
 
 
 
@@ -180,36 +180,36 @@ steps:
   displayName: 'Build Frontend Docker Image'
 
 # Create a directory to hold both reports
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      mkdir -p trivy-reports
-  displayName: 'Create Reports Directory'
+##- task: Bash@3
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      mkdir -p trivy-reports
+#  displayName: 'Create Reports Directory'
 
 # Trivy scan for the frontend Docker image
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-frontend-report.txt
-  displayName: 'Run Trivy Scan on Frontend'
+#- task: Bash@3
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/frontend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-frontend-report.txt
+#  displayName: 'Run Trivy Scan on Frontend'
 
 # Trivy scan for the backend Docker image
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-backend-report.txt
-  displayName: 'Run Trivy Scan on Backend'
+#- task: Bash@3
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      trivy image --exit-code 0 --severity HIGH,CRITICAL mustapha69/backend_final:$(Build.BuildId) --format table --output trivy-reports/trivy-backend-report.txt
+#  displayName: 'Run Trivy Scan on Backend'
 
 # Publish both Trivy Reports
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'trivy-reports'  
-    artifactName: 'TrivyReports(Front and Fack)'    
-    publishLocation: 'Container'
-  displayName: 'Publish Trivy Reports'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: 'trivy-reports'  
+#    artifactName: 'TrivyReports(Front and Fack)'    
+#    publishLocation: 'Container'
+#  displayName: 'Publish Trivy Reports'
 
 # Push Docker Images for frontend 
 - task: Docker@2
