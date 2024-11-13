@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     switch (index) {
       case 0:
-        Get.to(() => HomePage());
+        Get.to(() => CoHome());
         break;
       case 1:
         Get.to(() => TravelFormScreen());
