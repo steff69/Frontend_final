@@ -207,22 +207,11 @@ class FlightCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Reserve Flight'),
-          content: const Text('Do you want to reserve this flight?'),
+          title: const Text('We cant access the real DB of Tunisair'),
+          content: const Text('The list of the flights listed in the back page are from my own MongoDB'),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Reserve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Add reservation logic here
-              },
-            ),
+
+
           ],
         );
       },
